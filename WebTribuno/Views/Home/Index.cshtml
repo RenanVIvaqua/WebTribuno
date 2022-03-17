@@ -1,0 +1,64 @@
+﻿@model List<OperacaoModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div id="PageHome">
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Identificador</th>
+                <th>Nome operação</th>
+                <th>Descrição</th>
+                <th>Ação</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.IdOperacao
+                    </td>
+                    <td>
+                        @item.NomeOperacao
+                    </td>
+                    <td>
+                        @item.Descricao
+                    </td>
+                    <td>
+                        <button type="button" onclick="alterarOperacao(@item.IdOperacao)" class="btn btn-info" id="btnAlterarOperacao">Alterar</button>
+                        <button type="button" onclick="excluirOperacao(@item.IdOperacao)" class="btn btn-danger" id="btnExcluirOperacao">Excluir</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <table id="tbParcelas" class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Numero Parcela</th>
+                <th>Valor</th>
+                <th>Data de Vencimento</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+
+    </table>
+</div>
+
+<script src="~/js/Home.js" asp-append-version="true"></script>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
+

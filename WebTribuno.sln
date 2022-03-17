@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTribuno", "WebTribuno\WebTribuno.csproj", "{5ABF4C9B-A9B8-4E86-BA48-981BECAE0BD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{188BB462-2B3E-430E-AFBA-690BC31E5B88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{98E1E62D-73C8-48A2-AA2D-A6D50DED7C96}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5ABF4C9B-A9B8-4E86-BA48-981BECAE0BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ABF4C9B-A9B8-4E86-BA48-981BECAE0BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ABF4C9B-A9B8-4E86-BA48-981BECAE0BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ABF4C9B-A9B8-4E86-BA48-981BECAE0BD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{188BB462-2B3E-430E-AFBA-690BC31E5B88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{188BB462-2B3E-430E-AFBA-690BC31E5B88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{188BB462-2B3E-430E-AFBA-690BC31E5B88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{188BB462-2B3E-430E-AFBA-690BC31E5B88}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A16836B9-3600-41D6-B37D-FE3BD5558453}
+	EndGlobalSection
+EndGlobal
