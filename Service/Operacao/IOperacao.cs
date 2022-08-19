@@ -9,15 +9,14 @@ namespace Service.Operacao
 {
     public interface  IOperacao
     {
-        Task<HttpResponseMessage> SaveAsync(string token, OperacaoDML operacao);
+        Task<HttpResponseMessage> SaveAsync(OperacaoDML operacao);
 
         Task<HttpResponseMessage> Update(OperacaoDML operacao);
 
-        Task<HttpResponseMessage> Delete(string token, int idOperacao);
+        Task<HttpResponseMessage> Delete(int idOperacao);
 
-        Task<OperacaoDML> Get(string token, int idOperacao);
+        Task<OperacaoDML> Get(int idOperacao);
 
-        Task<List<OperacaoDML>> GetAll(string token, int idUsuario);
-
+        Task<List<OperacaoDML>> GetAll(int idUsuario);
     }
 }

@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Usuario;
 using WebTribuno.Models;
-using Microsoft.AspNetCore.Http;
-using WebTribuno.Service;
-using System.Text.Json;
 using Newtonsoft.Json;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Service.UsuarioToken;
 
 namespace WebTribuno.Controllers
 {
@@ -15,9 +10,12 @@ namespace WebTribuno.Controllers
     {
         private readonly IUsuario usuario;
 
-        public LoginController(IUsuario usuario)
+        private IUsuarioToken usuarioToken;
+
+        public LoginController(IUsuario usuario, IUsuarioToken usuarioToken)
         {
             this.usuario = usuario;
+            this.usuarioToken = usuarioToken;
         }
 
         public IActionResult Index()
@@ -34,11 +32,11 @@ namespace WebTribuno.Controllers
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var retorno = await response.Content.ReadAsStringAsync();
-                    var usuarioSessao = JsonConvert.DeserializeObject<UsuarioToken>(retorno);
-                    
-                    if(usuarioSessao != null)
-                        SalvarUsuarioSessao(usuarioSessao);
+                    var usuarioSessao = JsonConvert.DeserializeObject<UsuarioTokenDML>(retorno);
 
+                    if (usuarioSessao != null)                    
+                        usuarioToken.SalvarUsuarioToken(usuarioSessao);
+                   
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -51,23 +49,6 @@ namespace WebTribuno.Controllers
             {
                 return View("index");
             }
-        }
-
-        private async void SalvarUsuarioSessao(UsuarioToken usuarioToken) 
-        {
-            HttpContext.Session.SetString(Util.sessionToken, usuarioToken.Token);
-            HttpContext.Session.SetString(Util.sessionUserName, usuarioToken.Username);
-           
-            var claims = new List<Claim>();
-
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, usuarioToken.Username));
-            claims.Add(new Claim(ClaimTypes.Name, usuarioToken.Username));
-            claims.Add(new Claim(ClaimTypes.Authentication, usuarioToken.Token));
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-            await HttpContext.SignInAsync(claimsPrincipal);
-        }
+        }       
     }
 }

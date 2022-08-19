@@ -6,7 +6,7 @@ namespace Service.Usuario
     public class Usuario: IUsuario
     {
         private HttpClient client;
-        private const string UrlWebApi = "https://localhost:44390/";
+        private const string UrlWebApi = "https://localhost:5001/";
 
         private const string ActionGet    = "api/Usuario/Get";
         private const string ActionSave   = "api/Usuario/Save";

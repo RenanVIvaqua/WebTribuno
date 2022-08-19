@@ -58,7 +58,7 @@ namespace WebTribuno.Controllers
         {
             try
             {
-                operacao.SaveAsync(token, 
+                operacao.SaveAsync( 
                     new OperacaoDML()
                     {
                         NomeOperacao = operacaoModel.NomeOperacao,

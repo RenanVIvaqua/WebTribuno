@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Service.Usuario;
+using Service.UsuarioToken;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,15 @@ namespace Service.Operacao
     public class Operacao : IOperacao
     {
         private HttpClient client;
+  
         private const string UrlWebApi = "https://localhost:44390/"; // Pegar do appsettings 
-
         private const string ActionGet = "api/Operacao/Get";
         private const string ActionGetAll = "api/Operacao/GetAll";
         private const string ActionSave = "api/Operacao/Save";
         private const string ActionUpdate = "api/Operacao/Update";
         private const string ActionDelete = "api/Operacao/Delete";
 
-        public Operacao()
+        public Operacao(IUsuarioToken usuarioToken)
         {
             client = new HttpClient()
             {
@@ -29,12 +30,11 @@ namespace Service.Operacao
             };
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", usuarioToken.RetornarUsuarioSessao().Token);
         }
 
-        public async Task<HttpResponseMessage> Delete(string token, int idOperacao)
+        public async Task<HttpResponseMessage> Delete(int idOperacao)
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: ActionDelete + "/?id=" + idOperacao);
 
             HttpResponseMessage response = await client.DeleteAsync(uriRelative);
@@ -47,10 +47,8 @@ namespace Service.Operacao
                 throw (new Exception(response.StatusCode.ToString()));
         }
 
-        public async Task<OperacaoDML> Get(string token, int id)
-        {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
+        public async Task<OperacaoDML> Get(int id)
+        {          
             var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: ActionGet + "/?id=" + id);
 
             HttpResponseMessage response = await client.GetAsync(uriRelative);
@@ -66,10 +64,8 @@ namespace Service.Operacao
                 throw (new Exception(response.StatusCode.ToString()));
         }
 
-        public  async Task<List<OperacaoDML>> GetAll(string token, int idUser)
-        {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
+        public  async Task<List<OperacaoDML>> GetAll(int idUser)
+        {           
             var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: ActionGetAll + "/?idUsuario=" + idUser);
 
             HttpResponseMessage response = await client.GetAsync(uriRelative);
@@ -87,10 +83,8 @@ namespace Service.Operacao
 
         
 
-        public async Task<HttpResponseMessage> SaveAsync(string token, OperacaoDML operacao)
-        {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
+        public async Task<HttpResponseMessage> SaveAsync(OperacaoDML operacao)
+        {            
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(operacao), Encoding.UTF8);
             httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 

@@ -25,10 +25,5 @@ namespace Service.Usuario
         public DateTime DataAlteracao { get; set; }
     }
 
-    public class UsuarioToken
-    {
-        public string Username { get; set; }
-
-        public string Token { get; set; }
-    }
+    
 }

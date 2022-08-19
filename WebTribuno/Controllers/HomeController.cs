@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.Operacao;
+using Service.UsuarioToken;
 using System.Diagnostics;
 using System.Security.Claims;
 using WebTribuno.Models;
@@ -10,28 +11,16 @@ namespace WebTribuno.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IOperacao operacao;
-        private string token
+        private readonly IOperacao operacao; 
+    
+        public HomeController(IOperacao operacao)
         {
-            get
-            {
-                ClaimsPrincipal currentUser = this.User;
-                var token = currentUser.FindFirst(ClaimTypes.Authentication);
-
-                return token != null ? token.Value : string.Empty;
-            }
-        }
-
-        public HomeController(ILogger<HomeController> logger, IOperacao operacao)
-        {
-            this.operacao = operacao;
+            this.operacao = operacao;         
         }
 
         public async Task<IActionResult> Index()
-        {
-            var user = new Util().RetornaUsuarioLogado(HttpContext);
-
-            var operacoes = await operacao.GetAll(token, 1);
+        {         
+            var operacoes = await operacao.GetAll(1);
 
             var listaOperacaoModel = new List<OperacaoModel>();
             foreach (var operacao in operacoes)
@@ -53,7 +42,7 @@ namespace WebTribuno.Controllers
         {
             try
             {
-                var retorno = await operacao.Delete(token, idOperacao);
+                var retorno = await operacao.Delete(idOperacao);
 
                 return Json(new { Sucess = true, Message = "Operação excluido !" });
             }
@@ -66,7 +55,7 @@ namespace WebTribuno.Controllers
         [HttpPost]
         public async Task<IActionResult> AtualizarGridOperacao() 
         {
-            var operacoes = await operacao.GetAll(token, 1);
+            var operacoes = await operacao.GetAll(1);
 
             var listaOperacaoModel = new List<OperacaoModel>();
             foreach (var operacao in operacoes)

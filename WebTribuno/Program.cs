@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Service.Operacao;
 using Service.Usuario;
+using Service.UsuarioToken;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IUsuario, Usuario>();
+builder.Services.AddSingleton<IUsuarioToken, UsuarioToken>();
 builder.Services.AddSingleton<IOperacao, Operacao>();
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();

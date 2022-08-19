@@ -35,7 +35,7 @@ namespace WebTribuno.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
-            catch(Exception)
+            catch(Exception ex)
             {
                 return View("Index");
             }
