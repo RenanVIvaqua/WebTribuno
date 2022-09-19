@@ -17,17 +17,6 @@ namespace WebTribuno.Controllers
 
         private readonly IOperacao operacao;
 
-        private string token
-        {
-            get
-            {
-                ClaimsPrincipal currentUser = this.User;
-                var token = currentUser.FindFirst(ClaimTypes.Authentication);
-
-                return token != null ? token.Value : string.Empty;
-            }
-        }
-
         public CadastrarOperacaoController(IOperacao operacao)
         {
             this.operacao = operacao;

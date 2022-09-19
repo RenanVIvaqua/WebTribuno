@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Service.Usuario;
 using Service.UsuarioToken;
 using System;
@@ -7,98 +8,49 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Service.WebApiConfig;
 
 namespace Service.Operacao
 {
-    public class Operacao : IOperacao
+    public class Operacao : WebApiParametrizacao, IOperacao
     {
-        private HttpClient client;
-  
-        private const string UrlWebApi = "https://localhost:44390/"; // Pegar do appsettings 
-        private const string ActionGet = "api/Operacao/Get";
-        private const string ActionGetAll = "api/Operacao/GetAll";
-        private const string ActionSave = "api/Operacao/Save";
-        private const string ActionUpdate = "api/Operacao/Update";
-        private const string ActionDelete = "api/Operacao/Delete";
+        private const string OperacaoActionGet = "api/Operacao/Get";
+        private const string OperacaoActionGetAll = "api/Operacao/GetAll";
+        private const string OperacaoActionSave = "api/Operacao/Save";
+        private const string OperacaoActionUpdate = "api/Operacao/Update";
+        private const string OperacaoActionDelete = "api/Operacao/Delete";
 
-        public Operacao(IUsuarioToken usuarioToken)
+        public Operacao(IUsuarioToken usuarioToken, IConfiguration configuration) : base(configuration, usuarioToken)
         {
-            client = new HttpClient()
-            {
-                BaseAddress = new Uri(UrlWebApi),
-                Timeout = TimeSpan.FromSeconds(10000) // Pegar do appsettings
-            };
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", usuarioToken.RetornarUsuarioSessao().Token);
+
         }
 
         public async Task<HttpResponseMessage> Delete(int idOperacao)
         {
-            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: ActionDelete + "/?id=" + idOperacao);
-
-            HttpResponseMessage response = await client.DeleteAsync(uriRelative);
-
-            response.EnsureSuccessStatusCode();
-
-            if (response.IsSuccessStatusCode)
-                return response;
-            else
-                throw (new Exception(response.StatusCode.ToString()));
+            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: OperacaoActionDelete + "/?id=" + idOperacao);
+            return await DeleteAsync(uriRelative);
         }
 
         public async Task<OperacaoDML> Get(int id)
-        {          
-            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: ActionGet + "/?id=" + id);
+        {
+            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: OperacaoActionGet + "/?id=" + id);
+            var response = await GetAsync(uriRelative);
 
-            HttpResponseMessage response = await client.GetAsync(uriRelative);
-
-            response.EnsureSuccessStatusCode();
-
-            if (response.IsSuccessStatusCode)
-            {
-                var operacao = new OperacaoDML();
-                return operacao =  await response.Content.ReadAsAsync<OperacaoDML>();
-            }
-            else
-                throw (new Exception(response.StatusCode.ToString()));
+            return await response.Content.ReadAsAsync<OperacaoDML>();
         }
 
-        public  async Task<List<OperacaoDML>> GetAll(int idUser)
-        {           
-            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: ActionGetAll + "/?idUsuario=" + idUser);
+        public async Task<List<OperacaoDML>> GetAll(int idUser)
+        {
+            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: OperacaoActionGetAll + "/?idUsuario=" + idUser);
+            HttpResponseMessage response = await GetAsync(uriRelative);
 
-            HttpResponseMessage response = await client.GetAsync(uriRelative);
-
-            response.EnsureSuccessStatusCode();
-
-            if (response.IsSuccessStatusCode)
-            {
-                var operacao = await response.Content.ReadAsAsync<List<OperacaoDML>>();
-                return operacao;
-            }
-            else
-                throw (new Exception(response.StatusCode.ToString()));
+            return await response.Content.ReadAsAsync<List<OperacaoDML>>();
         }
-
-        
 
         public async Task<HttpResponseMessage> SaveAsync(OperacaoDML operacao)
-        {            
-            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(operacao), Encoding.UTF8);
-            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            try
-            {
-                HttpResponseMessage response = await client.PostAsync(UrlWebApi + ActionSave, httpContent);
-                response.EnsureSuccessStatusCode();
-
-                return response;
-            }
-            catch (Exception ex) 
-            {
-                throw new Exception("network error", ex);
-            }         
+        {           
+            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: OperacaoActionSave);
+            return await PostAsync(uriRelative, operacao);
         }
 
         public Task<HttpResponseMessage> Update(OperacaoDML operacao)

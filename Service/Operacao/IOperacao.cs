@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Service.Operacao
 {
-    public interface  IOperacao
+    public interface IOperacao
     {
         Task<HttpResponseMessage> SaveAsync(OperacaoDML operacao);
 

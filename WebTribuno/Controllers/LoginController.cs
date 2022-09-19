@@ -45,7 +45,7 @@ namespace WebTribuno.Controllers
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return View("index");
             }
