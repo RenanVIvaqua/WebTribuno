@@ -1,13 +1,16 @@
 ﻿@model List<OperacaoModel>
+@using WebTribuno.Pages
+
 @{
     ViewData["Title"] = "Home Page";
 }
+
 <div id="PageHome">
     <div class="text-center">
         <h1 class="display-4">Welcome</h1>
         <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     </div>
-
+ 
     <table class="table table-bordered table-striped" style="width:100%">
         <thead>
             <tr>
@@ -56,6 +59,7 @@
 </div>
 
 <script src="~/js/Home.js" asp-append-version="true"></script>
+ <script src="_framework/blazor.server.js"></script>
 @section Scripts {
     @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");

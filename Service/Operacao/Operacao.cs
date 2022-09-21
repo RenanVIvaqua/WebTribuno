@@ -39,9 +39,9 @@ namespace Service.Operacao
             return await response.Content.ReadAsAsync<OperacaoDML>();
         }
 
-        public async Task<List<OperacaoDML>> GetAll(int idUser)
+        public async Task<List<OperacaoDML>> GetAll()
         {
-            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: OperacaoActionGetAll + "/?idUsuario=" + idUser);
+            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: OperacaoActionGetAll + "/?idUsuario=" + IdUsuarioSessao);
             HttpResponseMessage response = await GetAsync(uriRelative);
 
             return await response.Content.ReadAsAsync<List<OperacaoDML>>();

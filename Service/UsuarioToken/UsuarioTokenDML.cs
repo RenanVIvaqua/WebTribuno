@@ -8,7 +8,7 @@ namespace Service.UsuarioToken
 {
     public class UsuarioTokenDML
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         public string Username { get; set; }
 

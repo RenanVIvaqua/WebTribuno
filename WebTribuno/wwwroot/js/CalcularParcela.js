@@ -1,13 +1,11 @@
 ﻿
 function CalcularParcela() {
 
-    if (!validacaoCalculoParcela())
-        return
-
+    alert('chamou');
     $.ajax({
         url: "/CadastrarOperacao/CalcularParcela",
         type: "POST",
-        data: { valorParcela: $("#ValorParcela").val(), quantidadeParcela: $("#QuantidadeParcela").val(), dataVencimento: $("#DataPrimeiroVencimento").val() },
+        data: { valorParcela: $("#ValorParcela").val(), quantidadeParcela: $("#NumeroDeParcelas").val(), dataVencimento: $("#PrimeiroVencimento").val() },
         datatype: "json",
         success: function (data) {
 

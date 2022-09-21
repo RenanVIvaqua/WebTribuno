@@ -16,14 +16,21 @@ namespace Service.WebApiConfig
 
         protected string UrlWebApi = string.Empty;
         protected int TimeOut = 0;
+        protected int IdUsuarioSessao = 0;
         protected HttpClient client = new HttpClient();
+        
 
         public WebApiParametrizacao(IConfiguration configuration, IUsuarioToken usuarioToken)
         {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            if(usuarioToken.RetornarUsuarioSessao() != null)
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + usuarioToken.RetornarUsuarioSessao().Token);
+
+            var usuarioSessao = usuarioToken.RetornarUsuarioSessao(); 
+            if (usuarioSessao != null)
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + usuarioSessao.Token);
+                IdUsuarioSessao = usuarioSessao.Id;
+            }
 
             client.DefaultRequestHeaders.AcceptEncoding.Clear();
 

@@ -11,6 +11,8 @@ builder.Services.AddSingleton<IUsuario, Usuario>();
 builder.Services.AddSingleton<IUsuarioToken, UsuarioToken>();
 builder.Services.AddSingleton<IOperacao, Operacao>();
 builder.Services.AddSession();
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 var app = builder.Build();
@@ -31,6 +33,8 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+app.MapBlazorHub();
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",

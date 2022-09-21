@@ -20,7 +20,7 @@ namespace WebTribuno.Controllers
 
         public async Task<IActionResult> Index()
         {         
-            var operacoes = await operacao.GetAll(1);
+            var operacoes = await operacao.GetAll();
 
             var listaOperacaoModel = new List<OperacaoModel>();
             foreach (var operacao in operacoes)
@@ -55,7 +55,7 @@ namespace WebTribuno.Controllers
         [HttpPost]
         public async Task<IActionResult> AtualizarGridOperacao() 
         {
-            var operacoes = await operacao.GetAll(1);
+            var operacoes = await operacao.GetAll();
 
             var listaOperacaoModel = new List<OperacaoModel>();
             foreach (var operacao in operacoes)

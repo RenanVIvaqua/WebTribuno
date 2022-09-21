@@ -10,7 +10,7 @@ using WebTribuno.Service;
 
 namespace WebTribuno.Controllers
 {
-    [Authorize]
+   
     public class CadastrarOperacaoController : Controller
     {
         private const string SessaoParcelas = "SessionParcelas";

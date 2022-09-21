@@ -1,15 +1,11 @@
 ﻿@model WebTribuno.Models.OperacaoModel
-
-<head>
-
-</head>
-
+@using WebTribuno.Pages
 @{
     ViewData["Title"] = "Index";
 }
 
-<div class="row">
-    <form id="formCadastroOperacao">
+
+    <div id="formCadastroOperacao">
         <div class="border p-3 mt-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row pb-2">
@@ -27,44 +23,8 @@
                 <span asp-validation-for="Descricao" class="text-danger"></span>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="QuantidadeParcela" class="control-label"></label>
-                <input asp-for="QuantidadeParcela" required class="form-control" type="number" min="1" />
-                <span id="spanQuatidadeParcela" asp-validation-for="QuantidadeParcela" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label id="labelValorParcela" asp-for="ValorParcela" class="control-label"></label>
-                <input asp-for="ValorParcela" required class="form-control" type="number" min="1" />
-                <span id="spanValorParcela" asp-validation-for="ValorParcela" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="DataPrimeiroVencimento" class="control-label"></label>
-                <input asp-for="DataPrimeiroVencimento" required class="form-control" type="date" />
-                <span id="spanDataPrimeiroVencimento" asp-validation-for="DataPrimeiroVencimento" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <button class="btn btn-primary" onclick="CalcularParcela()" type="button">Calcular Parcela</button>
-            </div>
-
-            <div>
-                <table id="tbParcelas" class="table table-bordered table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Número Parcela</th>
-                            <th>Valor</th>
-                            <th>Data Vencimento</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+                 <component type="typeof(GerarParcela)" render-mode="ServerPrerendered" />   
+                 
             <div class="form-group mb-3">
                 <label asp-for="TipoOperacao" class="control-label"></label>
                 <select asp-for="TipoOperacao" class="dropdown-item" asp-items="Html.GetEnumSelectList<TipoOperacao>()"></select>
@@ -72,7 +32,6 @@
             <div class="form-group mb-3">
                 <label asp-for="TipoCalculo" class="control-label"></label>
                 <select asp-for="TipoCalculo" class="dropdown-item" asp-items="Html.GetEnumSelectList<TipodeCalculo>()"></select>
-
             </div>
             <div class="form-group mb-3">
                 <input id="btGravar" type="submit" value="Cadastrar" class="btn btn-primary" />
@@ -80,15 +39,16 @@
             </div>
 
             <label class="alert">@ViewBag.Gravacao</label>
-
         </div>
-    </form>
-</div>
+    </div>
+
+    
+    
 <script src="~/js/CalcularParcela.js" asp-append-version="true"></script>
 <script src="CadastrarOperacao/Create" asp-append-version="true" type="javascript"></script>
 <script src="controller/action" type="javascript"></script>
 <script src="controller/action" asp-append-version="true" type="javascript"></script>
-
+ <script src="_framework/blazor.server.js"></script>
 @section Scripts {
     @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");

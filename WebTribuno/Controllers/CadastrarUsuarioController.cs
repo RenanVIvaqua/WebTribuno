@@ -33,7 +33,10 @@ namespace WebTribuno.Controllers
                     Email = usuarioModel.Email, 
                 } );
 
-                return RedirectToAction("Index", "Home");
+                if(response.StatusCode == System.Net.HttpStatusCode.OK)
+                    return RedirectToAction("Logon", "Login", usuarioModel);
+
+                return View("Index");
             }
             catch(Exception ex)
             {

@@ -18,6 +18,6 @@ namespace Service.Operacao
 
         Task<OperacaoDML> Get(int idOperacao);
 
-        Task<List<OperacaoDML>> GetAll(int idUsuario);
+        Task<List<OperacaoDML>> GetAll();
     }
 }

@@ -1,0 +1,81 @@
+﻿@using WebTribuno.Models
+
+<div class="form-group col-md-3">  
+    <label class="control-label" for="NumeroDeParcelas">Nro Parcela</label>
+    <input @bind="@gerarParcelaModel.NumeroDeParcelas" required class="form-control" type="number" min="1" placeholder="Nro Parcelas" />
+</div>
+
+<div class="form-group col-md-3">
+    <label for="@gerarParcelaModel.ValorParcela" class="control-label">Valor</label>
+    <input @bind="@gerarParcelaModel.ValorParcela" required class="form-control" type="number" mmin="1"  placeholder="Valor" />
+</div>
+
+<div class="form-group col-md-3">
+    <label class="control-label" for="@gerarParcelaModel.PrimeiroVencimento">Primeiro Vencimento</label>
+    <input @bind="@gerarParcelaModel.PrimeiroVencimento" required class="form-control" type="date" placeholder="Primeiro vencimento" />
+</div>
+
+<div>
+    <table id="tbParcelas" class="table" style="width:50%">
+        <thead class="thead-dark">
+            <tr>
+                <th>Número Parcela</th>
+                <th>Valor</th>
+                <th>Data Vencimento</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in listaParcela)
+            {
+                <tr>
+                    <td>
+                        @item.NumeroParcela
+                    </td>
+                    <td>
+                        @item.ValorParcela
+                    </td>
+                    <td>
+                        @item.DataVencimento
+                    </td>                    
+                </tr>
+            }
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<label>Saldo calculado: R$@gerarParcelaModel.SaldoCalculado</label>
+
+<button class="btn btn-success col-sm-2" @onclick=CalcularParcelas>Gerar Parcelas</button>
+
+@code {
+
+    private GerarParcelaModel gerarParcelaModel = new GerarParcelaModel();
+    private List<ParcelaModel> listaParcela = new List<ParcelaModel>(); 
+
+    private void CalcularParcelas()
+    {
+        listaParcela = new List<ParcelaModel>();
+
+        for (int i = 1; i <= gerarParcelaModel.NumeroDeParcelas; i++)
+        {
+            var parcela = new ParcelaModel()
+                {
+                    NumeroParcela = i,
+                    ValorParcela = gerarParcelaModel.ValorParcela,
+                    DataVencimento = gerarParcelaModel.PrimeiroVencimento.AddMonths(i - 1),
+                    DataInclusao = DateTime.Now,
+                    StatusParcela = StatusParcela.EmAberto
+                };
+
+            listaParcela.Add(parcela);
+        }
+        gerarParcelaModel.SaldoCalculado = listaParcela.Sum(x => x.ValorParcela);
+    }
+}
+
+@functions {
+
+}
+
