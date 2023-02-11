@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
 using Service.Operacao;
 using Service.Usuario;
 using Service.UsuarioToken;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +27,24 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+var culturaBrasil = new CultureInfo("pt-BR");
+culturaBrasil.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+culturaBrasil.DateTimeFormat.ShortTimePattern = "HH:mm";
+culturaBrasil.NumberFormat.NumberDecimalDigits = 2;
+culturaBrasil.NumberFormat.NumberGroupSeparator = "_";
+culturaBrasil.NumberFormat.NumberDecimalSeparator = ",";
+System.Console.WriteLine(string.Format(culturaBrasil, "{0:N}", 43239.11));
+
+
+app.UseRequestLocalization(new RequestLocalizationOptions()
+{
+    DefaultRequestCulture = new RequestCulture(culturaBrasil),
+});
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
-
 app.UseRouting();
 app.UseAuthentication();
 

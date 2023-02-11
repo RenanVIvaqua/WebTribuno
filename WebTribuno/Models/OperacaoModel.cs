@@ -17,13 +17,13 @@ namespace WebTribuno.Models
 
         [MaxLength(100)]
         [Display(Name = "Descrição")]
-        public string Descricao { get; set; }      
+        public string Descricao { get; set; }
 
         public SimulacaoParcela SimulacaoParcela { get; set; }
 
     }
 
-    public class SimulacaoParcela 
+    public class SimulacaoParcela
     {
         [Required]
         [Display(Name = "Quantidade de parcela")]
@@ -35,35 +35,32 @@ namespace WebTribuno.Models
 
         [Required]
         [Display(Name = "Data do primeiro vencimento")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataPrimeiroVencimento { get; set; }
-
-        [Required]
+     
         [Display(Name = "Tipo de operação:")]
         public TipoOperacao TipoOperacao { get; set; }
 
         [Display(Name = "Tipo de calculo:")]
         public TipodeCalculo TipoCalculo { get; set; }
 
-        public List<ParcelaModel>Parcelas { get; set; }
+        public List<ParcelaModel> Parcelas { get; set; }
 
     }
 
 
     public class ParcelaModel
-    {
-        [Required]
-        public int NumeroParcela { get; set; }
-        [Required]
+    {        
+        public int NumeroParcela { get; set; }       
         public decimal ValorParcela { get; set; }
         public DateTime DataVencimento { get; set; }
         public DateTime DataInclusao { get; set; }
         public DateTime DataAlteracao { get; set; }
         public StatusParcela StatusParcela { get; set; }
-
     }
 
     public enum TipoOperacao
-    {       
+    {
         [Description("Rendimento")]
         Rendimento = 2,
 
@@ -95,5 +92,5 @@ namespace WebTribuno.Models
         [Description("Parcela quitada")]
         Pago = 4
 
-    }   
+    }
 }

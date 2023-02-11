@@ -53,9 +53,10 @@ namespace Service.Operacao
             return await PostAsync(uriRelative, operacao);
         }
 
-        public Task<HttpResponseMessage> Update(OperacaoDML operacao)
+        public async Task<HttpResponseMessage> Update(OperacaoDML operacao)
         {
-            throw new NotImplementedException();
+            var uriRelative = new Uri(new Uri(UrlWebApi), relativeUri: OperacaoActionUpdate);
+            return await PostAsync(uriRelative, operacao);
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Service.Operacao;
 using Service.UsuarioToken;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using WebTribuno.Models;
 using WebTribuno.Pages;
@@ -16,7 +17,7 @@ namespace WebTribuno.Controllers
     public class CadastrarOperacaoController : Controller
     {
         private readonly IOperacao operacao;
-        private readonly IUsuarioToken usuarioToken;
+        private readonly IUsuarioToken usuarioToken;       
 
         public CadastrarOperacaoController(IOperacao operacao, IUsuarioToken usuarioToken)
         {
@@ -42,65 +43,26 @@ namespace WebTribuno.Controllers
             {
                 return View("~/Views/Shared/Error.cshtml", new ErrorViewModel() { MensagemErro = ex.Message });
             }
-        }
-
-        private OperacaoModel ConverterDMLparaModel(OperacaoDML pOperacaoDML) 
-        {           
-            var operacaoModel = new OperacaoModel()
-            {
-                NomeOperacao = pOperacaoDML.NomeOperacao,
-                Descricao = pOperacaoDML.Descricao,
-                IdOperacao = pOperacaoDML.IdOperacao,               
-            };
-
-            operacaoModel.SimulacaoParcela = new SimulacaoParcela();           
-
-            operacaoModel.SimulacaoParcela.Parcelas = ConverterParcelaParaModel(pOperacaoDML.Parcelas);
-            operacaoModel.SimulacaoParcela.QuantidadeParcela = operacaoModel.SimulacaoParcela.Parcelas.Count();
-            operacaoModel.SimulacaoParcela.ValorParcela = operacaoModel.SimulacaoParcela.Parcelas[0].ValorParcela;
-            operacaoModel.SimulacaoParcela.DataPrimeiroVencimento = operacaoModel.SimulacaoParcela.Parcelas[0].DataVencimento;
-
-            return operacaoModel;
-        }
-
-        private List<ParcelaModel> ConverterParcelaParaModel(List<OperacaoParcela> pOperacaoParcela) 
-        {
-            var parcelasModel = new List<ParcelaModel>();
-            
-            foreach(var parcela in pOperacaoParcela) 
-            {
-                var parcelaModel = new ParcelaModel()
-                {
-                    DataAlteracao= parcela.DataAlteracao,
-                    DataInclusao=parcela.DataInclusao,
-                    NumeroParcela = parcela.NumeroParcela,
-                    ValorParcela = parcela.ValorParcela,
-                    DataVencimento = parcela.DataVencimento,
-                };
-                parcelasModel.Add(parcelaModel);
-
-            }
-            return parcelasModel;
-        }
-
-
+        }       
+ 
         [HttpPost]   
         public ActionResult Create(OperacaoModel operacaoModel)
         {
+            if(!ModelState.IsValid)
+                return View("Index", operacaoModel);
+         
             try
             {
                 GerarParcelas(ref operacaoModel);
+                var operacaoDML = ConverterModelemDML(operacaoModel);
 
-                var retorno = operacao.SaveAsync( 
-                    new OperacaoDML()
-                    {
-                        NomeOperacao = operacaoModel.NomeOperacao,
-                        Descricao = operacaoModel.Descricao,
-                        DataCadastro = DateTime.Now,
-                        IdUsuario = usuarioToken.RetornarUsuarioSessao().Id,
-                        Parcelas = ConverterParcelaModel(operacaoModel.SimulacaoParcela.Parcelas)
-                    });
+                Task<HttpResponseMessage> retorno;
 
+                if (operacaoModel.IdOperacao > 0)                 
+                    retorno = operacao.Update(operacaoDML);                
+                else                 
+                    retorno = operacao.SaveAsync(operacaoDML);
+                          
                 if (retorno.Result.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     return View("Index");
@@ -141,9 +103,8 @@ namespace WebTribuno.Controllers
 
         [HttpPost]
         public PartialViewResult CalcularParcela(OperacaoModel pOperacaoModel)
-        {
-            GerarParcelas(ref pOperacaoModel);                        
-
+        {          
+            GerarParcelas(ref pOperacaoModel);      
             return PartialView("Index", pOperacaoModel);
         }
 
@@ -162,6 +123,61 @@ namespace WebTribuno.Controllers
                 };
                 pOperacaoModel.SimulacaoParcela.Parcelas.Add(parcela);
             }
+        }
+
+        private OperacaoModel ConverterDMLparaModel(OperacaoDML pOperacaoDML)
+        {
+            var operacaoModel = new OperacaoModel()
+            {
+                NomeOperacao = pOperacaoDML.NomeOperacao,
+                Descricao = pOperacaoDML.Descricao,
+                IdOperacao = pOperacaoDML.IdOperacao,
+            };
+
+            operacaoModel.SimulacaoParcela = new SimulacaoParcela();
+
+            operacaoModel.SimulacaoParcela.Parcelas = ConverterParcelaParaModel(pOperacaoDML.Parcelas);
+            operacaoModel.SimulacaoParcela.QuantidadeParcela = operacaoModel.SimulacaoParcela.Parcelas.Count();
+            operacaoModel.SimulacaoParcela.ValorParcela = operacaoModel.SimulacaoParcela.Parcelas[0].ValorParcela;
+            operacaoModel.SimulacaoParcela.DataPrimeiroVencimento = operacaoModel.SimulacaoParcela.Parcelas[0].DataVencimento;
+
+            return operacaoModel;
+        }
+
+        private List<ParcelaModel> ConverterParcelaParaModel(List<OperacaoParcela> pOperacaoParcela)
+        {
+            var parcelasModel = new List<ParcelaModel>();
+
+            foreach (var parcela in pOperacaoParcela)
+            {
+                var parcelaModel = new ParcelaModel()
+                {
+                    DataAlteracao = parcela.DataAlteracao,
+                    DataInclusao = parcela.DataInclusao,
+                    NumeroParcela = parcela.NumeroParcela,
+                    ValorParcela = parcela.ValorParcela,
+                    DataVencimento = parcela.DataVencimento,
+                };
+                parcelasModel.Add(parcelaModel);
+
+            }
+            return parcelasModel;
+        }
+
+
+        private OperacaoDML ConverterModelemDML(OperacaoModel operacaoModel)
+        {
+            var operacaoDML = new OperacaoDML()
+            {
+                IdOperacao = operacaoModel.IdOperacao,
+                NomeOperacao = operacaoModel.NomeOperacao,
+                Descricao = operacaoModel.Descricao,
+                DataCadastro = DateTime.Now,
+                IdUsuario = usuarioToken.RetornarUsuarioSessao().Id,
+                Parcelas = ConverterParcelaModel(operacaoModel.SimulacaoParcela.Parcelas)
+            };
+
+            return operacaoDML;
         }
     }
 }

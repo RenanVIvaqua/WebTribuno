@@ -3,12 +3,10 @@
 <div id="Simulacao" style="padding:10px;background-color:whitesmoke;border-radius:30px">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
+
     <div class="row">
         <h4 class="text-primary offset-1" style="padding:10px; font-style:oblique"><b>Simular Parcelas</b></h4>
     </div>
-
-
     <div class="row">
         <div class="form-group col-md-4">
             <label asp-for="@Model.QuantidadeParcela" class="control-label"></label>
@@ -18,7 +16,12 @@
 
         <div class="form-group col-md-4">
             <label asp-for="@Model.ValorParcela" class="control-label"></label>
-            <input id="ValorParcela" asp-for="@Model.ValorParcela" required class="form-control" type="number" mmin="1" placeholder="Valor" />
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">R$</span>
+                </div>
+                <input id="ValorParcela" asp-for="@Model.ValorParcela" required class="form-control" placeholder="Valor" />
+            </div>
             <span asp-validation-for="@Model.ValorParcela" class="text-danger"></span>
         </div>
 
@@ -29,31 +32,36 @@
         </div>
 
     </div>
-    <div style="padding:10px">
-        <div class="offset-4">
-            <table id="tbParcelas" class="table border" style="width:50%;background-color:white; border-radius:10px">
+    <div style="padding:20px">
+        <div class="offset-3">
+            <table id="tbParcelas" class="table" style="width:70%;background-color:white; border-radius:10px">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Número Parcela</th>
+                        <th>Nro</th>
                         <th>Valor</th>
                         <th>Data Vencimento</th>
                     </tr>
                 </thead>
                 <tbody>
                     @{
-                        if (Model != null)
+                        if (Model != null && Model.Parcelas != null)
                         {
                             foreach (var item in Model.Parcelas)
                             {
                                 <tr id="@item.NumeroParcela">
                                     <td>
-                                        @item.NumeroParcela
+                                        <label id="TbNumeroParcela" class="form-control">@item.NumeroParcela</label>
                                     </td>
                                     <td>
-                                        @item.ValorParcela
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">R$</span>
+                                            </div>
+                                            <input id="TbValorParcela" class="form-control"  disabled value="@item.ValorParcela.ToString("f")" />
+                                        </div>                                       
                                     </td>
                                     <td>
-                                        @item.DataVencimento
+                                        <input id="TbData" class="form-control"  name="Data" disabled value="@item.DataVencimento" />
                                     </td>
                                 </tr>
                             }
@@ -69,12 +77,12 @@
     <div class="form-group offset-4" style="padding:10px">
         <button id="btnCalcular" class="btn btn-danger" type="button"><b>Calcular</b></button>
         @{
-            decimal valorTotal = 0;
+            string valorTotal = "0,00";
 
             if (Model != null && Model.Parcelas != null)
-                valorTotal = Model.Parcelas.Sum(item => item.ValorParcela);
+                valorTotal = Model.Parcelas.Sum(item => item.ValorParcela).ToString("c");
 
-            <label><b>Saldo calculado: R$@valorTotal</b></label>
+            <label><b>Total: @valorTotal</b></label>
         }
     </div>
 
