@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Service.Operacao;
+using Service.UsuarioToken;
 using System.Security.Claims;
 using WebTribuno.Models;
+using WebTribuno.Pages;
 using WebTribuno.Service;
 
 namespace WebTribuno.Controllers
@@ -13,56 +15,107 @@ namespace WebTribuno.Controllers
    
     public class CadastrarOperacaoController : Controller
     {
-        private const string SessaoParcelas = "SessionParcelas";
-
         private readonly IOperacao operacao;
+        private readonly IUsuarioToken usuarioToken;
 
-        public CadastrarOperacaoController(IOperacao operacao)
+        public CadastrarOperacaoController(IOperacao operacao, IUsuarioToken usuarioToken)
         {
             this.operacao = operacao;
-        }
+            this.usuarioToken= usuarioToken;
+        }               
 
-        private List<ParcelaModel>? parcelaModels
-        {
-            get
-            {
-                var value = HttpContext.Session.GetString(SessaoParcelas);
-                return value == null ? null : JsonConvert.DeserializeObject<List<ParcelaModel>>(value);
-            }
-            set
-            {
-                HttpContext.Session.SetString(SessaoParcelas, JsonConvert.SerializeObject(value));
-            }
-        }
-
-        // GET: CadastrarOperacaoController
         public ActionResult Index()
-        {          
+        {
             return View();
         }
+              
+        public ActionResult Alteracao(int pIdOperacao)
+        {
+            try
+            {
+                var retorno = operacao.Get(pIdOperacao);
+                var model = ConverterDMLparaModel(retorno.Result);
 
-        // POST: CadastrarOperacaoController/Create
+                return View("Index",model);
+            }
+            catch (Exception ex) 
+            {
+                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel() { MensagemErro = ex.Message });
+            }
+        }
+
+        private OperacaoModel ConverterDMLparaModel(OperacaoDML pOperacaoDML) 
+        {           
+            var operacaoModel = new OperacaoModel()
+            {
+                NomeOperacao = pOperacaoDML.NomeOperacao,
+                Descricao = pOperacaoDML.Descricao,
+                IdOperacao = pOperacaoDML.IdOperacao,               
+            };
+
+            operacaoModel.SimulacaoParcela = new SimulacaoParcela();           
+
+            operacaoModel.SimulacaoParcela.Parcelas = ConverterParcelaParaModel(pOperacaoDML.Parcelas);
+            operacaoModel.SimulacaoParcela.QuantidadeParcela = operacaoModel.SimulacaoParcela.Parcelas.Count();
+            operacaoModel.SimulacaoParcela.ValorParcela = operacaoModel.SimulacaoParcela.Parcelas[0].ValorParcela;
+            operacaoModel.SimulacaoParcela.DataPrimeiroVencimento = operacaoModel.SimulacaoParcela.Parcelas[0].DataVencimento;
+
+            return operacaoModel;
+        }
+
+        private List<ParcelaModel> ConverterParcelaParaModel(List<OperacaoParcela> pOperacaoParcela) 
+        {
+            var parcelasModel = new List<ParcelaModel>();
+            
+            foreach(var parcela in pOperacaoParcela) 
+            {
+                var parcelaModel = new ParcelaModel()
+                {
+                    DataAlteracao= parcela.DataAlteracao,
+                    DataInclusao=parcela.DataInclusao,
+                    NumeroParcela = parcela.NumeroParcela,
+                    ValorParcela = parcela.ValorParcela,
+                    DataVencimento = parcela.DataVencimento,
+                };
+                parcelasModel.Add(parcelaModel);
+
+            }
+            return parcelasModel;
+        }
+
+
         [HttpPost]   
         public ActionResult Create(OperacaoModel operacaoModel)
         {
             try
             {
-                operacao.SaveAsync( 
+                GerarParcelas(ref operacaoModel);
+
+                var retorno = operacao.SaveAsync( 
                     new OperacaoDML()
                     {
                         NomeOperacao = operacaoModel.NomeOperacao,
                         Descricao = operacaoModel.Descricao,
                         DataCadastro = DateTime.Now,
-                        IdUsuario = 1,
-                        Parcelas = ConverterParcelaModel(parcelaModels)
-                    });            
-                var retorno = new { Success = true, Message = "Operação salva" };
-                return Json(retorno);
+                        IdUsuario = usuarioToken.RetornarUsuarioSessao().Id,
+                        Parcelas = ConverterParcelaModel(operacaoModel.SimulacaoParcela.Parcelas)
+                    });
+
+                if (retorno.Result.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return View("Index");
+                }
+                else
+                {
+                    if (retorno.Result.RequestMessage != null)
+                        throw new Exception(retorno.Result.RequestMessage.ToString());
+                    else
+                        throw new Exception("Erro Desconhecido");
+                }                    
             }
             catch(Exception ex)
-            {
-                var retorno = new { Success = false, Message = ex.Message };
-                return Json(retorno);
+            {               
+                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel() { MensagemErro = ex.Message });
             }
         }
 
@@ -83,44 +136,31 @@ namespace WebTribuno.Controllers
                     });
                 }
             }
-
             return parcelasDML;
         }
 
         [HttpPost]
-        public ActionResult CalcularParcela(decimal valorParcela, int quantidadeParcela, DateTime dataVencimento)
+        public PartialViewResult CalcularParcela(OperacaoModel pOperacaoModel)
         {
-            var parcelas = new List<ParcelaModel>();
+            GerarParcelas(ref pOperacaoModel);                        
 
-            for (int i = 1; i <= quantidadeParcela; i++)
+            return PartialView("Index", pOperacaoModel);
+        }
+
+        private void GerarParcelas(ref OperacaoModel pOperacaoModel) 
+        {
+            pOperacaoModel.SimulacaoParcela.Parcelas = new List<ParcelaModel>();
+
+            for (int i = 1; i <= pOperacaoModel.SimulacaoParcela.QuantidadeParcela; i++)
             {
                 var parcela = new ParcelaModel()
                 {
                     NumeroParcela = i,
-                    ValorParcela = valorParcela,
+                    ValorParcela = pOperacaoModel.SimulacaoParcela.ValorParcela,
                     DataInclusao = DateTime.Now,
-                    DataVencimento = dataVencimento.AddMonths(i),
+                    DataVencimento = pOperacaoModel.SimulacaoParcela.DataPrimeiroVencimento.AddMonths(i),
                 };
-                parcelas.Add(parcela);
-            }
-            parcelaModels = parcelas;
-
-            return Json(parcelas);
-        }
-
-
-        // POST: CadastrarOperacaoController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
+                pOperacaoModel.SimulacaoParcela.Parcelas.Add(parcela);
             }
         }
     }

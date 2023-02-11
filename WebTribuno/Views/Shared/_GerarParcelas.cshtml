@@ -1,0 +1,94 @@
+﻿@model WebTribuno.Models.SimulacaoParcela
+
+<div id="Simulacao" style="padding:10px;background-color:whitesmoke;border-radius:30px">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="row">
+        <h4 class="text-primary offset-1" style="padding:10px; font-style:oblique"><b>Simular Parcelas</b></h4>
+    </div>
+
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label asp-for="@Model.QuantidadeParcela" class="control-label"></label>
+            <input id="QuantidadeParcela" asp-for="@Model.QuantidadeParcela" required class="form-control" type="number" min="1" max="200" placeholder="Nro Parcelas" />
+            <span asp-validation-for="@Model.QuantidadeParcela" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label asp-for="@Model.ValorParcela" class="control-label"></label>
+            <input id="ValorParcela" asp-for="@Model.ValorParcela" required class="form-control" type="number" mmin="1" placeholder="Valor" />
+            <span asp-validation-for="@Model.ValorParcela" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label class="control-label" asp-for="DataPrimeiroVencimento"></label>
+            <input id="DataPrimeiroVencimento" asp-for="@Model.DataPrimeiroVencimento" required class="form-control" type="date" placeholder="Primeiro vencimento" />
+            <span asp-validation-for="@Model.DataPrimeiroVencimento" class="text-danger"></span>
+        </div>
+
+    </div>
+    <div style="padding:10px">
+        <div class="offset-4">
+            <table id="tbParcelas" class="table border" style="width:50%;background-color:white; border-radius:10px">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Número Parcela</th>
+                        <th>Valor</th>
+                        <th>Data Vencimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null)
+                        {
+                            foreach (var item in Model.Parcelas)
+                            {
+                                <tr id="@item.NumeroParcela">
+                                    <td>
+                                        @item.NumeroParcela
+                                    </td>
+                                    <td>
+                                        @item.ValorParcela
+                                    </td>
+                                    <td>
+                                        @item.DataVencimento
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group offset-4" style="padding:10px">
+        <button id="btnCalcular" class="btn btn-danger" type="button"><b>Calcular</b></button>
+        @{
+            decimal valorTotal = 0;
+
+            if (Model != null && Model.Parcelas != null)
+                valorTotal = Model.Parcelas.Sum(item => item.ValorParcela);
+
+            <label><b>Saldo calculado: R$@valorTotal</b></label>
+        }
+    </div>
+
+    <div class="row" style="padding:10px">
+        <div class="col-md-6">
+            <label asp-for="TipoOperacao"></label>
+            <select style="background-color:white;border-radius:10px" id="TipoOperacao" asp-for="TipoOperacao" class="dropdown-item" asp-items="Html.GetEnumSelectList<TipoOperacao>()"></select>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="TipoCalculo"></label>
+            <select style="background-color:white;border-radius:10px" id="TipoCalculo" asp-for="TipoCalculo" class="dropdown-item" asp-items="Html.GetEnumSelectList<TipodeCalculo>()"></select>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/CalcularParcela.js" asp-append-version="true"></script>
+

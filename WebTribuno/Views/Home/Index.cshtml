@@ -35,7 +35,7 @@
                         @item.Descricao
                     </td>
                     <td>
-                        <button type="button" onclick="alterarOperacao(@item.IdOperacao)" class="btn btn-info" id="btnAlterarOperacao">Alterar</button>
+                        <a class="btn btn-success text-white col-md-2" asp-action="Alteracao" asp-controller="CadastrarOperacao" asp-route-pIdOperacao="@item.IdOperacao">Alterar</a>
                         <button type="button" onclick="excluirOperacao(@item.IdOperacao)" class="btn btn-danger" id="btnExcluirOperacao">Excluir</button>
                     </td>
                 </tr>

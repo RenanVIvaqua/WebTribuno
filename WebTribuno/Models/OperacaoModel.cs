@@ -17,8 +17,14 @@ namespace WebTribuno.Models
 
         [MaxLength(100)]
         [Display(Name = "Descrição")]
-        public string Descricao { get; set; }
+        public string Descricao { get; set; }      
 
+        public SimulacaoParcela SimulacaoParcela { get; set; }
+
+    }
+
+    public class SimulacaoParcela 
+    {
         [Required]
         [Display(Name = "Quantidade de parcela")]
         public int QuantidadeParcela { get; set; }
@@ -32,13 +38,16 @@ namespace WebTribuno.Models
         public DateTime DataPrimeiroVencimento { get; set; }
 
         [Required]
-        [Display(Name = "Tipo de operação")]
+        [Display(Name = "Tipo de operação:")]
         public TipoOperacao TipoOperacao { get; set; }
 
-        [Display(Name = "Tipo de calculo")]
+        [Display(Name = "Tipo de calculo:")]
         public TipodeCalculo TipoCalculo { get; set; }
 
+        public List<ParcelaModel>Parcelas { get; set; }
+
     }
+
 
     public class ParcelaModel
     {
