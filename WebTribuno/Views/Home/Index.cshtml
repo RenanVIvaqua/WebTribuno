@@ -1,4 +1,4 @@
-﻿@model List<OperacaoModel>
+﻿@model WebTribuno.Models.HomeModel
 @using WebTribuno.Pages
 
 @{
@@ -7,22 +7,24 @@
 
 <div id="PageHome">
     <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        <h1 class="display-4">Bem-Vindo @ViewData["nomeUsuario"]</h1>
     </div>
- 
+
+    <partial name="_GraficoRendimentoVsPassivo" />
+
     <table class="table table-bordered table-striped" style="width:100%">
         <thead>
             <tr>
                 <th>Identificador</th>
                 <th>Nome operação</th>
                 <th>Descrição</th>
+                <th>Valor Total</th>
                 <th>Ação</th>
 
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.ListaPassivo)
             {
                 <tr>
                     <td>
@@ -35,6 +37,9 @@
                         @item.Descricao
                     </td>
                     <td>
+                         R$ @item.Parcelas.Sum(x => x.ValorParcela).ToString("f")
+                    </td>
+                    <td>
                         <a class="btn btn-success text-white col-md-2" asp-action="Alteracao" asp-controller="CadastrarOperacao" asp-route-pIdOperacao="@item.IdOperacao">Alterar</a>
                         <button type="button" onclick="excluirOperacao(@item.IdOperacao)" class="btn btn-danger" id="btnExcluirOperacao">Excluir</button>
                     </td>
@@ -43,26 +48,48 @@
         </tbody>
     </table>
 
-    <table id="tbParcelas" class="table table-bordered table-striped" style="width:100%">
+    <table class="table table-bordered table-striped" style="width:100%">
         <thead>
             <tr>
-                <th>Numero Parcela</th>
-                <th>Valor</th>
-                <th>Data de Vencimento</th>
+                <th>Identificador</th>
+                <th>Nome operação</th>
+                <th>Descrição</th>
+                <th>Valor Total</th>
+                <th>Ação</th>
+
             </tr>
         </thead>
-
         <tbody>
+            @foreach (var item in Model.ListaRendimento)
+            {
+                <tr>
+                    <td>
+                        @item.IdOperacao
+                    </td>
+                    <td>
+                        @item.NomeOperacao
+                    </td>
+                    <td>
+                        @item.Descricao
+                    </td>
+                    <td>
+                        R$ @item.Parcelas.Sum(x => x.ValorParcela).ToString("f")
+                    </td>
+                    <td>
+                        <a class="btn btn-success text-white col-md-2" asp-action="Alteracao" asp-controller="CadastrarOperacao" asp-route-pIdOperacao="@item.IdOperacao">Alterar</a>
+                        <button type="button" onclick="excluirOperacao(@item.IdOperacao)" class="btn btn-danger" id="btnExcluirOperacao">Excluir</button>
+                    </td>
+                </tr>
+            }
         </tbody>
-
     </table>
 </div>
 
 <script src="~/js/Home.js" asp-append-version="true"></script>
- <script src="_framework/blazor.server.js"></script>
+<script src="_framework/blazor.server.js"></script>
 @section Scripts {
     @{
-    await Html.RenderPartialAsync("_ValidationScriptsPartial");
-}
-}
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
 

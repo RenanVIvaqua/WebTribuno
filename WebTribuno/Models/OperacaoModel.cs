@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Service.Operacao;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,13 +12,15 @@ namespace WebTribuno.Models
 
         [Required]
         [MaxLength(30)]
-
         [Display(Name = "Nome operação")]
         public string NomeOperacao { get; set; }
 
         [MaxLength(100)]
+        [Required]
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
+
+        public TipoOperacao TipoOperacao { get; set; }
 
         public SimulacaoParcela SimulacaoParcela { get; set; }
 
@@ -58,39 +61,5 @@ namespace WebTribuno.Models
         public DateTime DataAlteracao { get; set; }
         public StatusParcela StatusParcela { get; set; }
     }
-
-    public enum TipoOperacao
-    {
-        [Description("Rendimento")]
-        Rendimento = 2,
-
-        [Description("Passivo")]
-        Passivo = 3
-    }
-
-    public enum TipodeCalculo
-    {
-
-        [Description("Calculado por Parcela")]
-        Parcela = 2,
-
-        [Description("Calculado por Valor Total da Operacao")]
-        Operacao = 3
-    }
-
-    public enum StatusParcela
-    {
-        [Description("Tipo de Parcela Não definido")]
-        NaoDefinido = 1,
-
-        [Description("Parcela Em Aberto")]
-        EmAberto = 2,
-
-        [Description("Parcela em atraso")]
-        Vencido = 3,
-
-        [Description("Parcela quitada")]
-        Pago = 4
-
-    }
+   
 }

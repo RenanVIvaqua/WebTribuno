@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Highsoft.Highcharts" Version="10.3.1.1" />
     <PackageReference Include="jQuery" Version="3.6.0" />
     <PackageReference Include="jQuery.InputMask" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNet.Mvc.pt-br" Version="5.2.9" />

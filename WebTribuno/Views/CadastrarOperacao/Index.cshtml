@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<form asp-action="Create" id="formCadastroOperacao" style="background-color:whitesmoke">
+<form id="formCadastroOperacao" style="background-color:whitesmoke">
     <div class="border p-3 mt-4">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row pb-2">
@@ -18,7 +18,7 @@
         </div>
         <div class="form-group mb-3">
             <label asp-for="@Model.Descricao" class="control-label"></label>
-            <input id="Descricao" asp-for="@Model.Descricao" class="form-control" />
+            <input id="Descricao" asp-for="@Model.Descricao" class="form-control" /> 
             <span asp-validation-for="@Model.Descricao" class="text-danger"></span>
         </div>
 
@@ -33,8 +33,7 @@
         <div class="offset-5" style="padding-top:30px">
             <input class="btn btn-primary col-md-2" id="btGravar" type="button" value="Cadastrar"/>
             <a class="btn btn-success text-white col-md-2" asp-action="Index" asp-controller="Home">Voltar</a>
-        </div>
-      
+        </div>      
     </div>
 </form>
 

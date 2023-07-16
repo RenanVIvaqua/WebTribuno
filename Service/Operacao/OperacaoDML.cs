@@ -26,30 +26,6 @@ namespace Service.Operacao
 
     }
 
-    public enum TipoOperacao
-    {
-        [Description("Tipo de Operação Não Definido")]
-        NaoDefinido = 1,
-
-        [Description("Tipo de Operação Ativo")]
-        Rendimento = 2,
-
-        [Description("Tipo de Operação Passivo")]
-        Passivo = 3
-    }
-
-    public enum TipodeCalculo
-    {
-        [Description("Calculado por Parcela")]
-        NãoDefinido = 1,
-
-        [Description("Calculado por Parcela")]
-        Parcela = 2,
-
-        [Description("Calculado por Valor Total da Operacao")]
-        Operacao = 3
-    }
-
     public class OperacaoParcela
     {
         public int IdParcela { get; set; }
@@ -60,6 +36,25 @@ namespace Service.Operacao
         public DateTime DataInclusao { get; set; }
         public DateTime DataAlteracao { get; set; }
         public StatusParcela StatusParcela { get; set; }
+    }
+
+    public enum TipoOperacao
+    {
+        [Description("Rendimento")]
+        Rendimento = 2,
+
+        [Description("Passivo")]
+        Passivo = 3
+    }
+
+    public enum TipodeCalculo
+    {
+
+        [Description("Calculado por Parcela")]
+        Parcela = 2,
+
+        [Description("Calculado por Valor Total da Operacao")]
+        Operacao = 3
     }
 
     public enum StatusParcela
@@ -77,4 +72,5 @@ namespace Service.Operacao
         Pago = 4
 
     }
+
 }

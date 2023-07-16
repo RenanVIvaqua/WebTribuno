@@ -6,12 +6,9 @@
     $("#input[name='Cep']").inputmask("mask", { "mask": "99999-999" });
     $("#input[name='Valor']").inputmask("mask", { "mask": "#.##9,99" }, { reverse: true });
     $("#input[name='Ip']").inputmask("mask", { "mask": "999.999.999.999" });
-
     $("input[name='MoedaCifrao']").maskMoney({ prefix: 'R$', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
     $("input[name='Moeda']").maskMoney({ allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
-
     $("#ValorParcela").maskMoney({ allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
-
 
     $("#btGravar").click(function () {
         $.ajax({
@@ -20,13 +17,12 @@
             data: GerarObjetoOpercaoModel(),
             datatype: "json",
             success: function (data) {
-                $("#formCadastroOperacao").html(data);
+                $(".body").html(data);
+                alert("Operação cadastrada !");
             }
         });
     });
-
 });
-
 
 $("#btnCalcular").click(function () {
     $.ajax({
@@ -34,22 +30,17 @@ $("#btnCalcular").click(function () {
         type: "POST",
         data: GerarObjetoOpercaoModel(),
         datatype: "json",
-        success: function (data) {
-            $("#formCadastroOperacao").html(data);
+        success: function (data) {        
+            $("#formCadastroOperacao").replaceWith(data);
         }
     });
 });
-
-
-
 
 function GerarObjetoOpercaoModel() {
 
     var Parcelas = [];
 
     $("#tbParcelas > tbody  > tr").each(function (index, tr) {  
-
-
         const ParcelaModel = {
             NumeroParcela: $(tr).find('#TbNumeroParcela').text(),
             ValorParcela: $(tr).find('#TbValorParcela').val(),
@@ -66,7 +57,7 @@ function GerarObjetoOpercaoModel() {
         SimulacaoParcela: {
             QuantidadeParcela: $("#QuantidadeParcela").val(),
             ValorParcela: $("#ValorParcela").val(),
-            DataPrimeiroVencimento: $("#DataPrimeiroVencimento").val(),
+            DataPrimeiroVencimento: $("#SimulacaoParcela_DataPrimeiroVencimento").val(),
             TipoOperacao: $("#TipoOperacao").val(),
             TipoCalculo: $("#TipoCalculo").val(),
             Parcelas: Parcelas
