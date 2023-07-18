@@ -105,11 +105,14 @@ namespace WebTribuno.Controllers
                 decimal somaRendimento = 0;
                 foreach (var operacao in pOperacoes)
                 {
+
+                    var teste = (from x in operacao.Parcelas where x.DataVencimento.Month == dataReferencia.Month && x.DataVencimento.Year == dataReferencia.Year select x.ValorParcela);
+
                     if (operacao.TipoOperacao == TipoOperacao.Passivo)                    
-                        somaDespesa += (from x in operacao.Parcelas where x.DataVencimento.Month == dataReferencia.Month select x.ValorParcela).Sum();     
+                        somaDespesa += (from x in operacao.Parcelas where x.DataVencimento.Month == dataReferencia.Month && x.DataVencimento.Year == dataReferencia.Year select x.ValorParcela).Sum();     
 
                     else if(operacao.TipoOperacao == TipoOperacao.Rendimento)
-                        somaRendimento += (from x in operacao.Parcelas where x.DataVencimento.Month == dataReferencia.Month select x.ValorParcela).Sum();
+                        somaRendimento += (from x in operacao.Parcelas where x.DataVencimento.Month == dataReferencia.Month && x.DataVencimento.Year == dataReferencia.Year select x.ValorParcela).Sum();
                 }
 
                 pDicionarioDespesa.Add(dataReferencia.Month, somaDespesa);
