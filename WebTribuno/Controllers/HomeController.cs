@@ -80,7 +80,7 @@ namespace WebTribuno.Controllers
 
         private DateTime ObterDataRefrencia() 
         {
-            return DateTime.Now.AddMonths(6);       
+            return DateTime.Now.AddMonths(-6);       
         }
 
         private void GerarSessaoDados(Dictionary<int, decimal> pValores, TipoOperacao pTipoOperacao) 
