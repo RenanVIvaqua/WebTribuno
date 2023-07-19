@@ -1,0 +1,30 @@
+﻿@using Service.Operacao;
+@model WebTribuno.Models.ParcelasDetalheModel
+
+<div class="content" style="overflow-y:scroll; overflow-x:hidden; height:400px;">
+    <table class="table table-bordered table-striped" style="width:90%">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Valor</th>
+                <th>Vencimento</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var parcela in Model.Parcelas)
+            {
+                <tr>
+                    <td>
+                        @parcela.NumeroParcela
+                    </td>
+                    <td>
+                        @parcela.ValorParcela.ToString("C")
+                    </td>
+                    <td>
+                        @parcela.DataVencimento.ToString("dd/MM/yyyy")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

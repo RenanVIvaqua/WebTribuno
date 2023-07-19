@@ -58,11 +58,11 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">R$</span>
                                             </div>
-                                            <input id="TbValorParcela" class="form-control"  disabled value="@item.ValorParcela.ToString("f")" />
+                                            <input id="TbValorParcela" class="form-control"  disabled value="@item.ValorParcela.ToString("N2")" />
                                         </div>                                       
                                     </td>
                                     <td>
-                                        <input id="TbData" class="form-control"  name="Data" disabled value="@item.DataVencimento" />
+                                        <input id="TbData" class="form-control" name="Data" disabled value="@item.DataVencimento.ToString("dd/MM/yyyy")" />
                                     </td>
                                 </tr>
                             }

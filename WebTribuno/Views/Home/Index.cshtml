@@ -4,6 +4,11 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<head>
+    <style>
+
+    </style>
+</head>
 
 <div id="PageHome">
     <div class="text-center">
@@ -11,80 +16,79 @@
     </div>
 
     <partial name="_GraficoRendimentoVsPassivo" />
-
-    <table class="table table-bordered table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th>Identificador</th>
-                <th>Nome operação</th>
-                <th>Descrição</th>
-                <th>Valor Total</th>
-                <th>Ação</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.ListaPassivo)
-            {
+    <div style="overflow-y:scroll; overflow-x:hidden; height:400px;">
+        <table class="table table-bordered table-striped" style="width:100%;">
+            <thead>
                 <tr>
-                    <td>
-                        @item.IdOperacao
-                    </td>
-                    <td>
-                        @item.NomeOperacao
-                    </td>
-                    <td>
-                        @item.Descricao
-                    </td>
-                    <td>
-                         R$ @item.Parcelas.Sum(x => x.ValorParcela).ToString("f")
-                    </td>
-                    <td>
-                        <a class="btn btn-success text-white col-md-2" asp-action="Alteracao" asp-controller="CadastrarOperacao" asp-route-pIdOperacao="@item.IdOperacao">Alterar</a>
-                        <button type="button" onclick="excluirOperacao(@item.IdOperacao)" class="btn btn-danger" id="btnExcluirOperacao">Excluir</button>
-                    </td>
+                    <th>Parcelas</th>
+                    <th>Nome operação</th>
+                    <th>Descrição</th>
+                    <th>Valor Total</th>
+                    <th>Ação</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ListaPassivo)
+                {
+                    <tr>
+                        <td>
+                            <button id="btnExpandirParcelas" onclick="abrirModalDetalhe(@item.IdOperacao,'Home','DetalheParcelas')" type="button" class="btn btn-link">@item.Parcelas.Count.ToString()x de @item.Parcelas[0].ValorParcela.ToString("C")</button>
+                        </td>
+                        <td>
+                            @item.NomeOperacao
+                        </td>
+                        <td>
+                            @item.Descricao
+                        </td>
+                        <td>
+                            @item.Parcelas.Sum(x => x.ValorParcela).ToString("C")
+                        </td>
+                        <td>
+                            <a class="btn text-white" style="border-radius:10px; background-color:gray;" asp-action="Alteracao" asp-controller="CadastrarOperacao" asp-route-pIdOperacao="@item.IdOperacao">Alterar</a>
+                            <button class="btn btn-danger" type="button" style="border-radius:10px" onclick="excluirOperacao(@item.IdOperacao)" id="btnExcluirOperacao">Excluir</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-    <table class="table table-bordered table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th>Identificador</th>
-                <th>Nome operação</th>
-                <th>Descrição</th>
-                <th>Valor Total</th>
-                <th>Ação</th>
+    <div style="padding-top:30px ;overflow-y:scroll; overflow-x:hidden; height:400px;">
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>                  
+                    <th>Nome operação</th>
+                    <th>Descrição</th>
+                    <th>Valor Total</th>
+                    <th>Ação</th>
 
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.ListaRendimento)
-            {
-                <tr>
-                    <td>
-                        @item.IdOperacao
-                    </td>
-                    <td>
-                        @item.NomeOperacao
-                    </td>
-                    <td>
-                        @item.Descricao
-                    </td>
-                    <td>
-                        R$ @item.Parcelas.Sum(x => x.ValorParcela).ToString("f")
-                    </td>
-                    <td>
-                        <a class="btn btn-success text-white col-md-2" asp-action="Alteracao" asp-controller="CadastrarOperacao" asp-route-pIdOperacao="@item.IdOperacao">Alterar</a>
-                        <button type="button" onclick="excluirOperacao(@item.IdOperacao)" class="btn btn-danger" id="btnExcluirOperacao">Excluir</button>
-                    </td>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ListaRendimento)
+                {
+                    <tr>                      
+                        <td>
+                            @item.NomeOperacao
+                        </td>
+                        <td>
+                            @item.Descricao
+                        </td>
+                        <td>
+                            @item.Parcelas.Sum(x => x.ValorParcela).ToString("C")
+                        </td>
+                        <td>
+                            <a class="btn text-white" style="border-radius:10px; background-color:gray;" asp-action="Alteracao" asp-controller="CadastrarOperacao" asp-route-pIdOperacao="@item.IdOperacao">Alterar</a>
+                            <button class="btn btn-danger" type="button" onclick="excluirOperacao(@item.IdOperacao)" id="btnExcluirOperacao">Excluir</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
+<partial name="_Modal" />
 <script src="~/js/Home.js" asp-append-version="true"></script>
 <script src="_framework/blazor.server.js"></script>
 @section Scripts {

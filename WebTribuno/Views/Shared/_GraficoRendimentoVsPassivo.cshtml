@@ -45,7 +45,12 @@
           {
             Name = "Despesa",
             Data =  (List<LineSeriesData>)@ViewData["PassivoData"]
-          }          
+          }, 
+           new LineSeries
+          {
+            Name = "Liquidez",
+            Data =  (List<LineSeriesData>)@ViewData[$"LiquidezData"]
+         }          
       }
   };
 
