@@ -1,0 +1,484 @@
+﻿/* ===========================================================
+   TRIBUNO LOGIN
+   Parte 1 - Estrutura
+=========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: 'Inter',sans-serif;
+    background: #eef3f8;
+}
+
+/*============================================================
+    Background
+=============================================================*/
+
+body {
+    background: radial-gradient(circle at top left,#3b82f6 0%,transparent 30%), radial-gradient(circle at bottom right,#2563eb 0%,transparent 25%), #edf2f7;
+    overflow: hidden;
+}
+
+/*============================================================
+    Container
+=============================================================*/
+
+.login-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+/*============================================================
+    Painel esquerdo
+=============================================================*/
+
+.login-left {
+    width: 50%;
+    padding: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+    background: linear-gradient( 145deg, #0f172a, #1d4ed8 );
+    position: relative;
+    overflow: hidden;
+}
+
+    .login-left::before {
+        content: "";
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        position: absolute;
+        right: -200px;
+        top: -150px;
+        background: rgba(255,255,255,.05);
+    }
+
+    .login-left::after {
+        content: "";
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        position: absolute;
+        left: -180px;
+        bottom: -180px;
+        background: rgba(255,255,255,.03);
+    }
+
+/*============================================================
+    Logo
+=============================================================*/
+
+.brand {
+    z-index: 2;
+}
+
+.brand-icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    margin-bottom: 25px;
+}
+
+    .brand-icon i {
+        font-size: 32px;
+    }
+
+.brand h1 {
+    font-size: 46px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    margin-top: 10px;
+    font-size: 18px;
+    color: rgba(255,255,255,.8);
+}
+
+/*============================================================
+    Hero
+=============================================================*/
+
+.hero {
+    z-index: 2;
+    max-width: 550px;
+}
+
+    .hero h2 {
+        font-size: 42px;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 25px;
+    }
+
+    .hero p {
+        font-size: 18px;
+        line-height: 32px;
+        color: rgba(255,255,255,.82);
+    }
+
+/*============================================================
+    Features
+=============================================================*/
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 2;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(12px);
+}
+
+    .feature i {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        color: #2563eb;
+        font-size: 22px;
+    }
+
+    .feature h6 {
+        margin-bottom: 4px;
+        font-weight: 700;
+    }
+
+    .feature span {
+        color: rgba(255,255,255,.8);
+        font-size: 14px;
+    }
+
+/*============================================================
+    Painel direito
+=============================================================*/
+
+.login-right {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+/*============================================================
+    Card
+=============================================================*/
+
+.login-card {
+    width: 100%;
+    max-width: 460px;
+    background: white;
+    border-radius: 22px;
+    padding: 50px;
+    box-shadow: 0 30px 60px rgba(15,23,42,.15);
+    border: 1px solid rgba(255,255,255,.5);
+}
+
+    .login-card h2 {
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .login-card p {
+        color: #64748b;
+    }
+
+/*============================================================
+    Responsividade
+=============================================================*/
+
+@media(max-width:1100px) {
+
+    .login-left {
+        display: none;
+    }
+
+    .login-right {
+        width: 100%;
+        padding: 35px;
+    }
+}
+
+@media(max-width:576px) {
+
+    .login-card {
+        padding: 35px 25px;
+        border-radius: 18px;
+    }
+
+    .login-right {
+        padding: 15px;
+    }
+}
+
+/*============================================================
+    Inputs Modernos
+=============================================================*/
+
+.form-label {
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.input-modern {
+    border: 1px solid #dbe4ee;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: .30s;
+    background: #fff;
+}
+
+    .input-modern:focus-within {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+    }
+
+    .input-modern .input-group-text {
+        border: none;
+        background: white;
+        color: #94a3b8;
+        width: 52px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .input-modern .form-control {
+        border: none;
+        box-shadow: none;
+        padding: 15px 10px;
+        font-size: 15px;
+    }
+
+        .input-modern .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+    .input-modern button {
+        border: none;
+        background: white;
+        width: 55px;
+        color: #64748b;
+        transition: .25s;
+    }
+
+        .input-modern button:hover {
+            background: #f8fafc;
+            color: #2563eb;
+        }
+
+/*============================================================
+    Botão Login
+=============================================================*/
+
+.btn-login {
+    background: linear-gradient( 135deg, #2563eb, #1d4ed8 );
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: .30s;
+    box-shadow: 0 12px 25px rgba(37,99,235,.25);
+}
+
+    .btn-login:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 35px rgba(37,99,235,.35);
+        color: white;
+    }
+
+    .btn-login:active {
+        transform: scale(.98);
+    }
+
+    .btn-login:disabled {
+        opacity: .8;
+        cursor: not-allowed;
+    }
+
+/*============================================================
+    Links
+=============================================================*/
+
+a {
+    text-decoration: none;
+    transition: .25s;
+}
+
+.link-primary {
+    font-weight: 600;
+}
+
+    .link-primary:hover {
+        text-decoration: underline;
+    }
+
+/*============================================================
+    Footer
+=============================================================*/
+
+.footer {
+    margin-top: 30px;
+    color: #94a3b8;
+    font-size: 14px;
+    text-align: center;
+}
+
+/*============================================================
+    Spinner
+=============================================================*/
+
+.spinner-border {
+    width: 18px;
+    height: 18px;
+}
+
+#loadingBotao {
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+/*============================================================
+    Validação
+=============================================================*/
+
+.text-danger {
+    font-size: 13px;
+}
+
+/*============================================================
+    Scrollbar
+=============================================================*/
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2563eb;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f3f4f6;
+}
+
+/*============================================================
+    Animações
+=============================================================*/
+
+.login-card {
+    animation: fadeIn .8s ease;
+}
+
+.brand {
+    animation: slideLeft .8s ease;
+}
+
+.hero {
+    animation: slideLeft 1s ease;
+}
+
+.features {
+    animation: slideLeft 1.2s ease;
+}
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideLeft {
+
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/*============================================================
+    Hover Features
+=============================================================*/
+
+.feature {
+    transition: .30s;
+}
+
+    .feature:hover {
+        transform: translateX(8px);
+        background: rgba(255,255,255,.14);
+    }
+
+/*============================================================
+    Logo Hover
+=============================================================*/
+
+.brand-icon {
+    transition: .35s;
+}
+
+    .brand-icon:hover {
+        transform: rotate(-8deg) scale(1.08);
+    }
+
+/*============================================================
+    Focus Inputs
+=============================================================*/
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+/*============================================================
+    Seleção de texto
+=============================================================*/
+
+::selection {
+    background: #2563eb;
+    color: white;
+}

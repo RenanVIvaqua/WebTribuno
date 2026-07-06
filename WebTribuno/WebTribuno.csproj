@@ -14,7 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\login.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="wwwroot\css\login.css" />
     <None Include="wwwroot\css\LoginSheet.css" />
     <None Include="wwwroot\js\CalcularParcela.js" />
   </ItemGroup>
