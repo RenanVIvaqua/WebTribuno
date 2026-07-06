@@ -49,7 +49,9 @@ namespace Service.WebApiConfig
 
         protected async Task<HttpResponseMessage> GetAsync(Uri uri)
         {
+            
             HttpResponseMessage response = await client.GetAsync(uri);
+            
             return ValidarRetorno(response);
         }
 

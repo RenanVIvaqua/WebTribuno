@@ -1,14 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Service.Usuario;
 using Service.UsuarioToken;
+using Service.WebApiConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Service.WebApiConfig;
 
 namespace Service.Operacao
 {
@@ -37,7 +38,7 @@ namespace Service.Operacao
             var response = await GetAsync(uriRelative);
 
             return await response.Content.ReadAsAsync<OperacaoDML>();
-        }
+        }      
 
         public async Task<List<OperacaoDML>> GetAll()
         {
