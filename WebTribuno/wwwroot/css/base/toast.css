@@ -1,0 +1,33 @@
+﻿#toastContainer {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast-modern {
+    background: #fff;
+    color: #374151;
+    min-width: 320px;
+    padding: 18px 22px;
+    border-radius: 14px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.15);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: .30s;
+}
+
+    .toast-modern.show {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .toast-modern i {
+        font-size: 22px;
+    }

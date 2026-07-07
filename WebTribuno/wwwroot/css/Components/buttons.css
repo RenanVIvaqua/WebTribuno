@@ -1,0 +1,252 @@
+﻿/*==========================================================
+    TRIBUNO
+    Buttons
+==========================================================*/
+
+/*==========================================================
+    Base
+==========================================================*/
+
+.btn-modern {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 48px;
+    padding: 0 22px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    white-space: nowrap;
+    user-select: none;
+}
+
+    .btn-modern i {
+        font-size: 15px;
+    }
+
+/*==========================================================
+    Primary
+==========================================================*/
+
+.btn-primary-modern {
+    background: var(--primary);
+    color: #fff;
+}
+
+    .btn-primary-modern:hover {
+        background: var(--primary-hover);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+/*==========================================================
+    Secondary
+==========================================================*/
+
+.btn-secondary-modern {
+    background: #EEF2FF;
+    color: var(--primary);
+}
+
+    .btn-secondary-modern:hover {
+        background: #DBEAFE;
+        color: var(--primary);
+    }
+
+/*==========================================================
+    Success
+==========================================================*/
+
+.btn-success-modern {
+    background: var(--success);
+    color: #fff;
+}
+
+    .btn-success-modern:hover {
+        filter: brightness(.95);
+        color: #fff;
+    }
+
+/*==========================================================
+    Danger
+==========================================================*/
+
+.btn-danger-modern {
+    background: var(--danger);
+    color: #fff;
+}
+
+    .btn-danger-modern:hover {
+        filter: brightness(.92);
+        color: #fff;
+    }
+
+/*==========================================================
+    Outline
+==========================================================*/
+
+.btn-outline-modern {
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+    .btn-outline-modern:hover {
+        background: var(--background);
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+/*==========================================================
+    Ghost
+==========================================================*/
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text);
+}
+
+    .btn-ghost:hover {
+        background: var(--background);
+    }
+
+/*==========================================================
+    Icon Button
+==========================================================*/
+
+.btn-icon-modern {
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border-radius: 14px;
+}
+
+    .btn-icon-modern i {
+        margin: 0;
+    }
+
+/*==========================================================
+    Small
+==========================================================*/
+
+.btn-sm-modern {
+    height: 36px;
+    padding: 0 16px;
+    font-size: 13px;
+}
+
+/*==========================================================
+    Large
+==========================================================*/
+
+.btn-lg-modern {
+    height: 56px;
+    padding: 0 28px;
+    font-size: 15px;
+}
+
+/*==========================================================
+    Full Width
+==========================================================*/
+
+.btn-block {
+    width: 100%;
+}
+
+/*==========================================================
+    Disabled
+==========================================================*/
+
+.btn-modern:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/*==========================================================
+    Loading
+==========================================================*/
+
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+}
+
+    .btn-loading::after {
+        content: "";
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(255,255,255,.35);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: btn-spin .8s linear infinite;
+    }
+
+@keyframes btn-spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*==========================================================
+    Floating Action Button
+==========================================================*/
+
+.btn-fab {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+}
+
+    .btn-fab:hover {
+        transform: translateY(-3px);
+        background: var(--primary-hover);
+    }
+
+/*==========================================================
+    Group
+==========================================================*/
+
+.btn-group-modern {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/*==========================================================
+    Responsive
+==========================================================*/
+
+.btn-modern:disabled {
+    opacity: .7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-modern:disabled:hover {
+        transform: none;
+    }
+
+
+   
+@media(max-width:768px) {
+
+    .btn-modern {
+        width: 100%;
+    }
+}

@@ -1,0 +1,159 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Tribuno</title>
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet" />
+
+    <!-- FontAwesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <!-- Bootstrap -->
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Base -->
+
+    <link rel="stylesheet"
+          href="~/css/base/theme.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/base/layout.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/base/sidebar.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/base/topbar.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/base/footer.css"
+          asp-append-version="true" />
+
+    <!-- Components -->
+
+    <link rel="stylesheet"
+          href="~/css/components/cards.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/components/buttons.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/components/forms.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/components/tables.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/components/modal.css"
+          asp-append-version="true" />
+
+    <!-- Página -->
+
+    @RenderSection("Styles", required: false)
+
+</head>
+
+<body class="dashboard-layout">
+
+    <div class="dashboard-wrapper">
+
+        <!-- Sidebar -->
+
+        <partial name="_Sidebar" />
+
+        <!-- Área Principal -->
+
+        <div class="content-wrapper">
+
+            <!-- Barra Superior -->
+
+            <partial name="_Topbar" />
+
+            <!-- Conteúdo -->
+
+            <main class="page-content">
+
+                @RenderBody()
+
+            </main>
+
+            <!-- Rodapé -->
+
+            <partial name="_Footer" />
+
+        </div>
+
+    </div>
+
+    <!-- Modal Global -->
+
+    <partial name="_Modal" />
+
+    <!-- JQuery -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Site -->
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    <!-- InputMask -->
+
+    <script src="~/lib/jquey-inputmask/jquery.inputmask.min.js"></script>
+
+    <script src="~/lib/jquey-inputmask/jquery.maskMoney.js"></script>
+
+    <!-- Layout -->
+
+    <script src="~/js/layout/sidebar.js"
+            asp-append-version="true"></script>
+
+    <script src="~/js/layout/topbar.js"
+            asp-append-version="true"></script>
+
+    <!-- Página -->
+
+    @RenderSection("Scripts", required: false)
+
+    <div id="toastContainer"></div>
+
+</body>
+
+</html>

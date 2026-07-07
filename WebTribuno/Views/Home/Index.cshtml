@@ -1,99 +1,665 @@
 ﻿@model WebTribuno.Models.HomeModel
-@using WebTribuno.Pages
 
 @{
-    ViewData["Title"] = "Home Page";
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Dashboard";
 }
-<head>
-    <style>
 
-    </style>
-</head>
 
-<div id="PageHome">
-    <div class="text-center">
-        <h1 class="display-4">Bem-Vindo @ViewData["nomeUsuario"]</h1>
+@{
+    decimal totalReceitas = Model.ListaRendimento
+        .SelectMany(x => x.Parcelas)
+        .Sum(x => x.ValorParcela);
+
+    decimal totalDespesas = Model.ListaPassivo
+        .SelectMany(x => x.Parcelas)
+        .Sum(x => x.ValorParcela);
+
+    decimal saldo = totalReceitas - totalDespesas;
+
+    int totalOperacoes =
+        Model.ListaPassivo.Count +
+        Model.ListaRendimento.Count;
+}
+
+<div class="fade-up">
+
+    <!-- ========================================= -->
+    <!-- Cabeçalho -->
+    <!-- ========================================= -->
+
+    <div class="page-header">
+
+        <div class="page-header-left">
+
+            <h1>
+                Dashboard Financeiro
+            </h1>
+
+            <p>
+
+                Bem-vindo,
+                <strong>@ViewData["nomeUsuario"]</strong>
+
+                👋
+
+            </p>
+
+        </div>
+
+        <div class="page-header-right">
+
+            <a asp-controller="CadastrarOperacao"
+               asp-action="Index"
+               class="btn-modern btn-primary-modern">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Nova Operação
+
+            </a>
+
+        </div>
+
     </div>
 
-    <partial name="_GraficoRendimentoVsPassivo" />
-    <div style="overflow-y:scroll; overflow-x:hidden; height:400px;">
-        <table class="table table-bordered table-striped" style="width:100%;">
-            <thead>
-                <tr>
-                    <th>Parcelas</th>
-                    <th>Nome operação</th>
-                    <th>Descrição</th>
-                    <th>Valor Total</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.ListaPassivo)
-                {
-                    <tr>
-                        <td>
-                            <button id="btnExpandirParcelas" onclick="abrirModalDetalhe(@item.IdOperacao,'Home','DetalheParcelas')" type="button" class="btn btn-link">@item.Parcelas.Count.ToString()x de @item.Parcelas[0].ValorParcela.ToString("C")</button>
-                        </td>
-                        <td>
-                            @item.NomeOperacao
-                        </td>
-                        <td>
-                            @item.Descricao
-                        </td>
-                        <td>
-                            @item.Parcelas.Sum(x => x.ValorParcela).ToString("C")
-                        </td>
-                        <td>
-                            <a class="btn text-white" style="border-radius:10px; background-color:gray;" asp-action="Alteracao" asp-controller="CadastrarOperacao" asp-route-pIdOperacao="@item.IdOperacao">Alterar</a>
-                            <button class="btn btn-danger" type="button" style="border-radius:10px" onclick="excluirOperacao(@item.IdOperacao)" id="btnExcluirOperacao">Excluir</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <!-- ========================================= -->
+    <!-- Cards -->
+    <!-- ========================================= -->
+
+    <div class="grid grid-4 mb-4">
+
+        <!-- Saldo -->
+
+        <div class="card-modern">
+
+            <div class="card-kpi">
+
+                <div class="card-kpi-info">
+
+                    <span class="card-kpi-label">
+
+                        Saldo Atual
+
+                    </span>
+
+                    <div class="card-kpi-value">
+
+                        @saldo.ToString("C")
+
+                    </div>
+
+                    <div class="card-kpi-change positive">
+
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+
+                        Atualizado hoje
+
+                    </div>
+
+                </div>
+
+                <div class="card-icon">
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Receitas -->
+
+        <div class="card-modern">
+
+            <div class="card-kpi">
+
+                <div class="card-kpi-info">
+
+                    <span class="card-kpi-label">
+
+                        Receitas
+
+                    </span>
+
+                    <div class="card-kpi-value table-value-positive">
+
+                        @totalReceitas.ToString("C")
+
+                    </div>
+
+                    <div class="card-kpi-change positive">
+
+                        <i class="fa-solid fa-arrow-up"></i>
+
+                        Entradas
+
+                    </div>
+
+                </div>
+
+                <div class="card-icon">
+
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Despesas -->
+
+        <div class="card-modern">
+
+            <div class="card-kpi">
+
+                <div class="card-kpi-info">
+
+                    <span class="card-kpi-label">
+
+                        Despesas
+
+                    </span>
+
+                    <div class="card-kpi-value table-value-negative">
+
+                        @totalDespesas.ToString("C")
+
+                    </div>
+
+                    <div class="card-kpi-change negative">
+
+                        <i class="fa-solid fa-arrow-down"></i>
+
+                        Saídas
+
+                    </div>
+
+                </div>
+
+                <div class="card-icon">
+
+                    <i class="fa-solid fa-arrow-trend-down"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Operações -->
+
+        <div class="card-modern">
+
+            <div class="card-kpi">
+
+                <div class="card-kpi-info">
+
+                    <span class="card-kpi-label">
+
+                        Operações
+
+                    </span>
+
+                    <div class="card-kpi-value">
+
+                        @totalOperacoes
+
+                    </div>
+
+                    <div class="card-kpi-change">
+
+                        <i class="fa-solid fa-layer-group"></i>
+
+                        Total cadastradas
+
+                    </div>
+
+                </div>
+
+                <div class="card-icon">
+
+                    <i class="fa-solid fa-chart-pie"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div style="padding-top:30px ;overflow-y:scroll; overflow-x:hidden; height:400px;">
-        <table class="table table-bordered table-striped" style="width:100%">
-            <thead>
-                <tr>                  
-                    <th>Nome operação</th>
-                    <th>Descrição</th>
-                    <th>Valor Total</th>
-                    <th>Ação</th>
+    <!-- ========================================= -->
+    <!-- Gráfico -->
+    <!-- ========================================= -->
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.ListaRendimento)
-                {
-                    <tr>                      
-                        <td>
-                            @item.NomeOperacao
-                        </td>
-                        <td>
-                            @item.Descricao
-                        </td>
-                        <td>
-                            @item.Parcelas.Sum(x => x.ValorParcela).ToString("C")
-                        </td>
-                        <td>
-                            <a class="btn text-white" style="border-radius:10px; background-color:gray;" asp-action="Alteracao" asp-controller="CadastrarOperacao" asp-route-pIdOperacao="@item.IdOperacao">Alterar</a>
-                            <button class="btn btn-danger" type="button" onclick="excluirOperacao(@item.IdOperacao)" id="btnExcluirOperacao">Excluir</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="card-modern card-chart">
+
+        <div class="card-header-modern">
+
+            <div>
+
+                <div class="card-title">
+
+                    Visão Financeira
+
+                </div>
+
+                <div class="card-subtitle">
+
+                    Receitas x Despesas
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-chart-body d-flex align-items-center justify-content-center">
+
+            <partial name="_GraficoRendimentoVsPassivo" />
+
+        </div>
+
     </div>
+
 </div>
 
+<!-- ========================================= -->
+<!-- Passivos -->
+<!-- ========================================= -->
+
+<div class="card-modern mt-4">
+
+    <div class="card-header-modern">
+
+        <div>
+
+            <div class="card-title">
+
+                Passivos
+
+            </div>
+
+            <div class="card-subtitle">
+
+                Operações de saída cadastradas
+
+            </div>
+
+        </div>
+
+        <span class="card-badge badge-danger">
+
+            @Model.ListaPassivo.Count Operações
+
+        </span>
+
+    </div>
+
+    <div class="table-container">
+
+        <table class="table-modern">
+
+            <thead>
+
+                <tr>
+
+                    <th>Operação</th>
+
+                    <th>Parcelas</th>
+
+                    <th>Descrição</th>
+
+                    <th>Total</th>
+
+                    <th style="width:140px">
+
+                        Ações
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @if (Model.ListaPassivo.Any())
+                {
+                    foreach (var item in Model.ListaPassivo)
+                    {
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center gap-3">
+
+                                    <div class="card-icon">
+
+                                        <i class="fa-solid fa-credit-card"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+
+                                            @item.NomeOperacao
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                <a class="table-link"
+                                   onclick="abrirModalDetalhe(@item.IdOperacao,'Home','DetalheParcelas')">
+
+                                    @item.Parcelas.Count x
+
+                                    @item.Parcelas.First().ValorParcela.ToString("C")
+
+                                </a>
+
+                            </td>
+
+                            <td>
+
+                                @(string.IsNullOrWhiteSpace(item.Descricao)
+                                    ? "-"
+                                    : item.Descricao)
+
+                            </td>
+
+                            <td>
+
+                                <span class="table-value-negative">
+
+                                    @item.Parcelas.Sum(x => x.ValorParcela).ToString("C")
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <div class="table-actions">
+
+                                    <a asp-controller="CadastrarOperacao"
+                                       asp-action="Alteracao"
+                                       asp-route-pIdOperacao="@item.IdOperacao"
+                                       class="table-btn edit"
+                                       title="Editar">
+
+                                        <i class="fa-solid fa-pen"></i>
+
+                                    </a>
+
+                                    <button type="button"
+                                            class="table-btn delete"
+                                            title="Excluir"
+                                            onclick="excluirOperacao(@item.IdOperacao)">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+
+                    <tr>
+
+                        <td colspan="5">
+
+                            <div class="table-empty">
+
+                                <i class="fa-solid fa-wallet"></i>
+
+                                <h4>
+
+                                    Nenhum passivo cadastrado
+
+                                </h4>
+
+                                <p>
+
+                                    Clique em <strong>Nova Operação</strong> para começar.
+
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- Rendimentos -->
+<!-- ========================================= -->
+
+<div class="card-modern mt-4">
+
+    <div class="card-header-modern">
+
+        <div>
+
+            <div class="card-title">
+
+                Rendimentos
+
+            </div>
+
+            <div class="card-subtitle">
+
+                Operações de entrada cadastradas
+
+            </div>
+
+        </div>
+
+        <span class="card-badge badge-success">
+
+            @Model.ListaRendimento.Count Operações
+
+        </span>
+
+    </div>
+
+    <div class="table-container">
+
+        <table class="table-modern">
+
+            <thead>
+
+                <tr>
+
+                    <th>Operação</th>
+
+                    <th>Descrição</th>
+
+                    <th>Total</th>
+
+                    <th style="width:140px">
+
+                        Ações
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @if (Model.ListaRendimento.Any())
+                {
+                    foreach (var item in Model.ListaRendimento)
+                    {
+
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center gap-3">
+
+                                    <div class="card-icon">
+
+                                        <i class="fa-solid fa-sack-dollar"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+
+                                            @item.NomeOperacao
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                @(string.IsNullOrWhiteSpace(item.Descricao)
+                                    ? "-"
+                                    : item.Descricao)
+
+                            </td>
+
+                            <td>
+
+                                <span class="table-value-positive">
+
+                                    @item.Parcelas.Sum(x => x.ValorParcela).ToString("C")
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <div class="table-actions">
+
+                                    <a asp-controller="CadastrarOperacao"
+                                       asp-action="Alteracao"
+                                       asp-route-pIdOperacao="@item.IdOperacao"
+                                       class="table-btn edit"
+                                       title="Editar">
+
+                                        <i class="fa-solid fa-pen"></i>
+
+                                    </a>
+
+                                    <button type="button"
+                                            class="table-btn delete"
+                                            title="Excluir"
+                                            onclick="excluirOperacao(@item.IdOperacao)">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    }
+                }
+                else
+                {
+
+                    <tr>
+
+                        <td colspan="4">
+
+                            <div class="table-empty">
+
+                                <i class="fa-solid fa-circle-dollar-to-slot"></i>
+
+                                <h4>
+
+                                    Nenhum rendimento cadastrado
+
+                                </h4>
+
+                                <p>
+
+                                    Cadastre uma nova operação de rendimento.
+
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- Modal -->
+<!-- ========================================= -->
+
 <partial name="_Modal" />
-<script src="~/js/Home.js" asp-append-version="true"></script>
-<script src="_framework/blazor.server.js"></script>
-@section Scripts {
+
+@section Styles{
+
+    <link rel="stylesheet"
+          href="~/css/pages/dashboard.css"
+          asp-append-version="true"/>
+
+}
+
+@section Scripts{
+
+    <script src="~/js/pages/dashboard.js"
+            asp-append-version="true"></script>
+
+    <script src="~/js/Home.js"
+            asp-append-version="true"></script>
+
+    <script src="_framework/blazor.server.js"></script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    }
+}
 

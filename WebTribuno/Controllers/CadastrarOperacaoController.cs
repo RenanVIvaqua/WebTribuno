@@ -61,7 +61,11 @@ namespace WebTribuno.Controllers
                           
                 if (retorno.Result.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return View("Index");
+                    return Ok(new
+                    {
+                        sucesso = true,
+                        mensagem = "Operação cadastrada com sucesso!"
+                    });
                 }
                 else
                 {
@@ -72,18 +76,31 @@ namespace WebTribuno.Controllers
                 }                    
             }
             catch(Exception ex)
-            {               
-                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel() { MensagemErro = ex.Message });
+            {
+                return BadRequest(new
+                {
+                    sucesso = false,
+                    mensagem = ex.Message
+                });
             }
         }
 
         [HttpPost]
-        public PartialViewResult CalcularParcela(OperacaoModel pOperacaoModel)
+        public IActionResult CalcularParcela(OperacaoModel operacaoModel)
         {
-            GerarParcelas(ref pOperacaoModel);
-            return PartialView("Index", pOperacaoModel);
+            GerarParcelas(ref operacaoModel);
+
+            var response = new CalcularParcelaResponse
+            {
+                Parcelas = operacaoModel.SimulacaoParcela.Parcelas,
+
+                ValorTotal = operacaoModel.SimulacaoParcela.Parcelas
+                    .Sum(x => x.ValorParcela)
+            };
+
+            return Ok(response);
         }
-              
+
         private void GerarParcelas(ref OperacaoModel pOperacaoModel) 
         {
             pOperacaoModel.SimulacaoParcela.Parcelas = new List<ParcelaModel>();

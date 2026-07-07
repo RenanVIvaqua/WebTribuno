@@ -1,0 +1,359 @@
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+
+    bool Active(params string[] controllers)
+    {
+        return controllers.Any(x =>
+            string.Equals(x, controller, StringComparison.OrdinalIgnoreCase));
+    }
+
+    // TODO:
+    // Futuramente substituir por UserProfileViewComponent
+
+    var nome = ViewData["nomeUsuario"]?.ToString() ?? "Usuário";
+
+    var inicial = nome.Substring(0, 1).ToUpper();
+}
+
+<aside class="sidebar">
+
+    <!-- ========================================= -->
+    <!-- Logo -->
+    <!-- ========================================= -->
+
+    <div class="sidebar-logo">
+
+        <a asp-controller="Home"
+           asp-action="Index">
+
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+            </div>
+
+            <div>
+
+                <h3>TRIBUNO</h3>
+
+                <small>Financial Manager</small>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- Resumo Financeiro -->
+    <!-- ========================================= -->
+
+    <section class="sidebar-widget">
+
+        <span class="widget-title">
+
+            Saldo Atual
+
+        </span>
+
+        <h2>
+
+            R$ 5.420,30
+
+        </h2>
+
+        <div class="finance-item">
+
+            <i class="fa-solid fa-arrow-trend-up text-success"></i>
+
+            <span>
+
+                Receitas
+
+            </span>
+
+            <strong>
+
+                R$ 8.200,00
+
+            </strong>
+
+        </div>
+
+        <div class="finance-item">
+
+            <i class="fa-solid fa-arrow-trend-down text-danger"></i>
+
+            <span>
+
+                Despesas
+
+            </span>
+
+            <strong>
+
+                R$ 2.779,70
+
+            </strong>
+
+        </div>
+
+    </section>
+
+    <!-- ========================================= -->
+    <!-- Navegação -->
+    <!-- ========================================= -->
+
+    <nav class="sidebar-menu">
+
+        <span class="menu-group">
+
+            MENU
+
+        </span>
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="@(Active("Home") ? "active" : "")">
+
+            <i class="fa-solid fa-house"></i>
+
+            Dashboard
+
+        </a>
+
+        <span class="menu-group">
+
+            FINANCEIRO
+
+        </span>
+
+        <a asp-controller="CadastrarOperacao"
+           asp-action="Index"
+           class="@(Active("CadastrarOperacao") ? "active" : "")">
+
+            <i class="fa-solid fa-wallet"></i>
+
+            Operações
+
+        </a>
+
+        <a href="#">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+            Parcelas
+
+        </a>
+
+        <a href="#">
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            Relatórios
+
+            <span class="badge-menu">
+
+                Em breve
+
+            </span>
+
+        </a>
+
+        <a href="#">
+
+            <i class="fa-solid fa-bullseye"></i>
+
+            Metas
+
+            <span class="badge-menu">
+
+                Em breve
+
+            </span>
+
+        </a>
+
+        <span class="menu-group">
+
+            SISTEMA
+
+        </span>
+
+        <a href="#">
+
+            <i class="fa-solid fa-user"></i>
+
+            Perfil
+
+        </a>
+
+        <a href="#">
+
+            <i class="fa-solid fa-gear"></i>
+
+            Configurações
+
+        </a>
+
+    </nav>
+
+    <!-- ========================================= -->
+    <!-- Próximos vencimentos -->
+    <!-- ========================================= -->
+
+    <section class="sidebar-widget">
+
+        <div class="widget-header">
+
+            <h5>
+
+                Próximos vencimentos
+
+            </h5>
+
+            <a href="#">
+
+                Ver todos
+
+            </a>
+
+        </div>
+
+        <div class="activity">
+
+            <div>
+
+                <strong>
+
+                    Internet
+
+                </strong>
+
+                <small>
+
+                    Hoje
+
+                </small>
+
+            </div>
+
+            <span>
+
+                R$ 99,90
+
+            </span>
+
+        </div>
+
+        <div class="activity">
+
+            <div>
+
+                <strong>
+
+                    Cartão Nubank
+
+                </strong>
+
+                <small>
+
+                    08 Jul
+
+                </small>
+
+            </div>
+
+            <span>
+
+                R$ 1.240,00
+
+            </span>
+
+        </div>
+
+        <div class="activity">
+
+            <div>
+
+                <strong>
+
+                    Financiamento
+
+                </strong>
+
+                <small>
+
+                    10 Jul
+
+                </small>
+
+            </div>
+
+            <span>
+
+                R$ 980,00
+
+            </span>
+
+        </div>
+
+    </section>
+
+    <!-- ========================================= -->
+    <!-- Nova operação -->
+    <!-- ========================================= -->
+
+    <div class="sidebar-action">
+
+        <a asp-controller="CadastrarOperacao"
+           asp-action="Index"
+           class="btn btn-primary w-100">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Nova Operação
+
+        </a>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- Usuário -->
+    <!-- ========================================= -->
+
+    <div class="sidebar-user">
+
+        <div class="avatar">
+
+            @inicial
+
+        </div>
+
+        <div class="user-data">
+
+            <strong>
+
+                @nome
+
+            </strong>
+
+            <small>
+
+                Desenvolvedor
+
+            </small>
+
+        </div>
+
+        <a asp-controller="Login"
+           asp-action="Logout"
+           class="logout">
+
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+        </a>
+
+    </div>
+
+</aside>

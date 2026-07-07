@@ -1,0 +1,181 @@
+﻿/*==========================================================
+    TRIBUNO
+    Modal
+==========================================================*/
+
+/*==========================================================
+    Modal
+==========================================================*/
+
+.modal-content {
+    border: none;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    background: var(--surface);
+}
+
+/*==========================================================
+    Header
+==========================================================*/
+
+.modal-header {
+    padding: 24px 30px;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+}
+
+.modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/*==========================================================
+    Close
+==========================================================*/
+
+.btn-close {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    transition: var(--transition);
+    opacity: .75;
+}
+
+    .btn-close:hover {
+        opacity: 1;
+        background: var(--background);
+        transform: rotate(90deg);
+    }
+
+/*==========================================================
+    Body
+==========================================================*/
+
+.modal-body {
+    padding: 30px;
+    background: #fff;
+    color: var(--text);
+}
+
+/*==========================================================
+    Footer
+==========================================================*/
+
+.modal-footer {
+    padding: 24px 30px;
+    border-top: 1px solid var(--border);
+    background: #fff;
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+}
+
+/*==========================================================
+    Backdrop
+==========================================================*/
+
+.modal-backdrop.show {
+    opacity: .45;
+    backdrop-filter: blur(4px);
+}
+
+/*==========================================================
+    Modal Sizes
+==========================================================*/
+
+.modal-sm {
+    max-width: 420px;
+}
+
+.modal-md {
+    max-width: 650px;
+}
+
+.modal-lg {
+    max-width: 900px;
+}
+
+.modal-xl {
+    max-width: 1200px;
+}
+
+/*==========================================================
+    Modal Scroll
+==========================================================*/
+
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 999px;
+}
+
+/*==========================================================
+    Animation
+==========================================================*/
+
+.modal.fade .modal-dialog {
+    transform: translateY(25px) scale(.96);
+    transition: all .25s ease;
+}
+
+.modal.show .modal-dialog {
+    transform: translateY(0) scale(1);
+}
+
+/*==========================================================
+    Information Block
+==========================================================*/
+
+.modal-info {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 18px;
+    border-radius: var(--radius-md);
+    background: var(--background);
+    margin-bottom: 24px;
+}
+
+    .modal-info i {
+        font-size: 22px;
+        color: var(--primary);
+    }
+
+/*==========================================================
+    Divider
+==========================================================*/
+
+.modal-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 25px 0;
+}
+
+/*==========================================================
+    Responsive
+==========================================================*/
+
+@media(max-width:768px) {
+
+    .modal-header {
+        padding: 20px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .modal-footer {
+        padding: 20px;
+        flex-direction: column;
+    }
+
+        .modal-footer .btn-modern {
+            width: 100%;
+        }
+}

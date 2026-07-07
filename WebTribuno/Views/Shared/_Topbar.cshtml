@@ -1,0 +1,137 @@
+﻿@{
+    var nomeUsuario = ViewData["nomeUsuario"]?.ToString() ?? "Usuário";
+
+    var hora = DateTime.Now.Hour;
+
+    string saudacao =
+        hora < 12 ? "Bom dia ☀️" :
+        hora < 18 ? "Boa tarde 🌤️" :
+                    "Boa noite 🌙";
+}
+
+<header class="topbar">
+
+    <!-- ===================================== -->
+    <!-- Esquerda -->
+    <!-- ===================================== -->
+
+    <div class="topbar-left">
+
+        <button id="btnSidebar"
+                class="btn-icon">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+        <div class="page-title">
+
+            <span class="welcome">
+
+                @saudacao
+
+            </span>
+
+            <h2>
+
+                @ViewData["Title"]
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Centro -->
+    <!-- ===================================== -->
+
+    <div class="topbar-search">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input type="text"
+               placeholder="Pesquisar operações..." />
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Direita -->
+    <!-- ===================================== -->
+
+    <div class="topbar-right">
+
+        <button class="btn-icon"
+                title="Calendário">
+
+            <i class="fa-regular fa-calendar"></i>
+
+        </button>
+
+        <button class="btn-icon"
+                title="Notificações">
+
+            <i class="fa-regular fa-bell"></i>
+
+            <span class="notification-dot">
+
+                3
+
+            </span>
+
+        </button>
+
+        <button id="btnTheme"
+                class="btn-icon"
+                title="Tema">
+
+            <i class="fa-regular fa-moon"></i>
+
+        </button>
+
+        <button class="btn-icon"
+                title="Configurações">
+
+            <i class="fa-solid fa-gear"></i>
+
+        </button>
+
+        <div class="topbar-divider"></div>
+
+        <!-- Perfil -->
+
+        <div class="user-menu">
+
+            <div class="avatar">
+
+                @nomeUsuario.Substring(0, 1).ToUpper()
+
+            </div>
+
+            <div class="user-information">
+
+                <strong>
+
+                    @nomeUsuario
+
+                </strong>
+
+                <small>
+
+                    Desenvolvedor .NET
+
+                </small>
+
+            </div>
+
+            <button class="btn-icon">
+
+                <i class="fa-solid fa-chevron-down"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</header>

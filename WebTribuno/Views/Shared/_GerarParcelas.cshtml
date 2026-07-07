@@ -1,103 +1,380 @@
 ﻿@using Service.Operacao;
 @model WebTribuno.Models.SimulacaoParcela
 
-<div id="Simulacao" style="padding:10px;background-color:whitesmoke;border-radius:30px">
+<div id="Simulacao" class="form-modern">
 
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="row">
-        <h4 class="text-primary offset-1" style="padding:10px; font-style:oblique"><b>Simular Parcelas</b></h4>
+    <div asp-validation-summary="ModelOnly"
+         class="field-validation-error">
     </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label asp-for="@Model.QuantidadeParcela" class="control-label"></label>
-            <input id="QuantidadeParcela" asp-for="@Model.QuantidadeParcela" required class="form-control" type="number" min="1" max="200" placeholder="Nro Parcelas" />
-            <span asp-validation-for="@Model.QuantidadeParcela" class="text-danger"></span>
-        </div>
 
-        <div class="form-group col-md-4">
-            <label asp-for="@Model.ValorParcela" class="control-label"></label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">R$</span>
+    <!-- ========================================= -->
+    <!-- Dados Financeiros -->
+    <!-- ========================================= -->
+
+    <div class="card-modern">
+
+        <div class="card-header-modern">
+
+            <div>
+
+                <div class="card-title">
+
+                    Dados Financeiros
+
                 </div>
-                <input id="ValorParcela" asp-for="@Model.ValorParcela" required class="form-control" placeholder="Valor" />
+
+                <div class="card-subtitle">
+
+                    Configure como esta operação será calculada.
+
+                </div>
+
             </div>
-            <span asp-validation-for="@Model.ValorParcela" class="text-danger"></span>
+
         </div>
 
-        <div class="form-group col-md-4">
-            <label class="control-label" asp-for="DataPrimeiroVencimento"></label>
-            <input asp-for="@Model.DataPrimeiroVencimento" required class="form-control" type="date" placeholder="Primeiro vencimento" />
-            <span asp-validation-for="@Model.DataPrimeiroVencimento" class="text-danger"></span>
+        <div class="form-modern">
+
+            <!-- Tipo -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label asp-for="TipoOperacao"
+                           class="form-label form-label-required">
+
+                    </label>
+
+                    <select id="TipoOperacao"
+                            asp-for="TipoOperacao"
+                            asp-items="Html.GetEnumSelectList<TipoOperacao>()"
+                            class="form-control-modern">
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label asp-for="TipoCalculo"
+                           class="form-label form-label-required">
+
+                    </label>
+
+                    <select id="TipoCalculo"
+                            asp-for="TipoCalculo"
+                            asp-items="Html.GetEnumSelectList<TipodeCalculo>()"
+                            class="form-control-modern">
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Simulação -->
+
+            <div class="form-divider"></div>
+
+            <div>
+
+                <h5>
+
+                    Simulação
+
+                </h5>
+
+                <p class="form-help">
+
+                    Informe a quantidade de parcelas,
+                    o valor e a data do primeiro vencimento.
+
+                </p>
+
+            </div>
+
+            <div class="form-row">
+
+                <!-- Parcelas -->
+
+                <div class="form-group">
+
+                    <label asp-for="QuantidadeParcela"
+                           class="form-label form-label-required">
+
+                    </label>
+
+                    <input id="QuantidadeParcela"
+                           asp-for="QuantidadeParcela"
+                           type="number"
+                           min="1"
+                           max="200"
+                           required
+                           placeholder="Ex.: 12"
+                           class="form-control-modern" />
+
+                    <span asp-validation-for="QuantidadeParcela"
+                          class="field-validation-error">
+
+                    </span>
+
+                </div>
+
+                <!-- Valor -->
+
+                <div class="form-group">
+
+                    <label asp-for="ValorParcela"
+                           class="form-label form-label-required">
+
+                    </label>
+
+                    <div class="input-icon">
+
+                        <i class="fa-solid fa-dollar-sign"></i>
+
+                        <input id="ValorParcela"
+                               asp-for="ValorParcela"
+                               required
+                               placeholder="0,00"
+                               class="form-control-modern" />
+
+                    </div>
+
+                    <span asp-validation-for="ValorParcela"
+                          class="field-validation-error">
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <!-- Primeiro vencimento -->
+
+                <div class="form-group">
+
+                    <label asp-for="DataPrimeiroVencimento"
+                           class="form-label form-label-required">
+
+                    </label>
+
+                    <input asp-for="DataPrimeiroVencimento"
+                           type="date"
+                           required
+                           class="form-control-modern" />
+
+                    <span asp-validation-for="DataPrimeiroVencimento"
+                          class="field-validation-error">
+
+                    </span>
+
+                </div>
+
+                <!-- Botão -->
+
+                <div class="form-group"
+                     style="justify-content:end;">
+
+                    <button id="btnCalcular"
+                            type="button"
+                            class="btn-modern btn-primary-modern btn-block">
+
+                        <i class="fa-solid fa-calculator"></i>
+
+                        Calcular Parcelas
+
+                    </button>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>
-    <div style="padding:20px;overflow-y:scroll; overflow-x:hidden; height:400px;">
-        <div class="offset-3">
-            <table id="tbParcelas" class="table" style="width:70%;background-color:white; border-radius:10px">
-                <thead class="thead-dark">
+
+                    <!-- ========================================= -->
+    <!-- Resumo -->
+    <!-- ========================================= -->
+
+    @{
+        string valorTotal = "R$ 0,00";
+
+        if (Model != null && Model.Parcelas != null)
+        {
+            valorTotal = Model.Parcelas
+                .Sum(x => x.ValorParcela)
+                .ToString("C");
+        }
+    }
+
+    <div class="card-modern">
+
+        <div class="card-kpi">
+
+            <div class="card-kpi-info">
+
+                <span class="card-kpi-label">
+
+                    Valor Total da Operação
+
+                </span>
+
+                <div class="card-kpi-value table-value-positive">
+
+                    @valorTotal
+
+                </div>
+
+                <div class="card-kpi-change positive">
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Parcelas Calculadas
+
+                </div>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fa-solid fa-sack-dollar"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- Parcelas -->
+    <!-- ========================================= -->
+
+    <div class="card-modern">
+
+        <div class="card-header-modern">
+
+            <div>
+
+                <div class="card-title">
+
+                    Parcelas Geradas
+
+                </div>
+
+                <div class="card-subtitle">
+
+                    Confira as parcelas antes de salvar.
+
+                </div>
+
+            </div>
+
+            <span class="card-badge badge-info">
+
+                @(Model?.Parcelas?.Count ?? 0) Parcelas
+
+            </span>
+
+        </div>
+
+        <div class="table-container">
+
+            <table id="tbParcelas" class="table-modern">
+
+                <thead>
+
                     <tr>
-                        <th>Nro</th>
+
+                        <th>Parcela</th>
+
                         <th>Valor</th>
-                        <th>Data Vencimento</th>
+
+                        <th>Vencimento</th>
+
                     </tr>
+
                 </thead>
+
                 <tbody>
-                    @{
-                        if (Model != null && Model.Parcelas != null)
+
+                    @if (Model != null &&
+                         Model.Parcelas != null &&
+                         Model.Parcelas.Any())
+                    {
+                        foreach (var item in Model.Parcelas)
                         {
-                            foreach (var item in Model.Parcelas)
-                            {
-                                <tr id="@item.NumeroParcela">
-                                    <td>
-                                        <label id="TbNumeroParcela" class="form-control">@item.NumeroParcela</label>
-                                    </td>
-                                    <td>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">R$</span>
-                                            </div>
-                                            <input id="TbValorParcela" class="form-control"  disabled value="@item.ValorParcela.ToString("N2")" />
-                                        </div>                                       
-                                    </td>
-                                    <td>
-                                        <input id="TbData" class="form-control" name="Data" disabled value="@item.DataVencimento.ToString("dd/MM/yyyy")" />
-                                    </td>
-                                </tr>
-                            }
+                            <tr id="@item.NumeroParcela">
+
+                                <td>
+
+                                    <strong>
+
+                                        @item.NumeroParcela
+
+                                    </strong>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="table-value">
+
+                                        @item.ValorParcela.ToString("C")
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    @item.DataVencimento.ToString("dd/MM/yyyy")
+
+                                </td>
+
+                            </tr>
                         }
                     }
-                    <tr>
-                    </tr>
+                    else
+                    {
+
+                        <tr>
+
+                            <td colspan="3">
+
+                                <div class="table-empty">
+
+                                    <i class="fa-solid fa-calendar-days"></i>
+
+                                    <h4>
+
+                                        Nenhuma parcela calculada
+
+                                    </h4>
+
+                                    <p>
+
+                                        Informe os dados acima e clique em
+                                        <strong>Calcular Parcelas</strong>.
+
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    }
+
                 </tbody>
+
             </table>
+
         </div>
+
     </div>
 
-    <div class="form-group offset-4" style="padding:10px">
-        <button id="btnCalcular" class="btn btn-danger" type="button"><b>Calcular</b></button>
-        @{
-            string valorTotal = "0,00";
-
-            if (Model != null && Model.Parcelas != null)
-                valorTotal = Model.Parcelas.Sum(item => item.ValorParcela).ToString("c");
-
-            <label><b>Total: @valorTotal</b></label>
-        }
-    </div>
-
-    <div class="row" style="padding:10px">
-        <div class="col-md-6">
-            <label asp-for="TipoOperacao"></label>
-            <select style="background-color:white;border-radius:10px" id="TipoOperacao" asp-for="@Model.TipoOperacao" class="dropdown-item" asp-items="Html.GetEnumSelectList<TipoOperacao>()"></select>
-        </div>
-        <div class="col-md-6">
-            <label asp-for="TipoCalculo"></label>
-            <select style="background-color:white;border-radius:10px" id="TipoCalculo" asp-for="@Model.TipoCalculo" class="dropdown-item" asp-items="Html.GetEnumSelectList<TipodeCalculo>()"></select>
-        </div>
-    </div>
 </div>
-
-<script src="~/js/CalcularParcela.js" asp-append-version="true"></script>
-

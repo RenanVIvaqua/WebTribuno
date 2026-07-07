@@ -1,0 +1,321 @@
+﻿/*==========================================================
+    SIDEBAR
+==========================================================*/
+
+.sidebar {
+    width: 320px;
+    min-height: 100vh;
+    background: linear-gradient( 180deg, #0F172A 0%, #1E3A8A 100% );
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 24px;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+/*==========================================================
+    LOGO
+==========================================================*/
+
+.sidebar-logo a {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #fff;
+}
+
+.logo-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: .25s;
+}
+
+    .logo-icon:hover {
+        transform: rotate(-8deg);
+    }
+
+.logo-text h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.logo-text small {
+    color: rgba(255,255,255,.70);
+}
+
+/*==========================================================
+    WIDGET
+==========================================================*/
+
+.sidebar-widget {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 20px;
+    padding: 22px;
+    backdrop-filter: blur(18px);
+}
+
+.widget-title {
+    color: rgba(255,255,255,.70);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar-widget h2 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.finance-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+    .finance-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .finance-item span {
+        flex: 1;
+        color: rgba(255,255,255,.70);
+    }
+
+    .finance-item strong {
+        color: #fff;
+    }
+
+/*==========================================================
+    MENU
+==========================================================*/
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-group {
+    margin-top: 10px;
+    margin-bottom: 6px;
+    color: rgba(255,255,255,.55);
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    color: #CBD5E1;
+    transition: .25s;
+    font-weight: 500;
+}
+
+    .sidebar-menu a:hover {
+        background: rgba(255,255,255,.10);
+        color: #fff;
+    }
+
+    .sidebar-menu a.active {
+        background: #2563EB;
+        color: #fff;
+        box-shadow: 0 10px 25px rgba(37,99,235,.35);
+    }
+
+    .sidebar-menu a i {
+        width: 20px;
+        text-align: center;
+    }
+
+/*==========================================================
+    BADGE
+==========================================================*/
+
+.badge-menu {
+    margin-left: auto;
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 999px;
+}
+
+/*==========================================================
+    WIDGET HEADER
+==========================================================*/
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+    .widget-header h5 {
+        margin: 0;
+        color: #fff;
+    }
+
+    .widget-header a {
+        color: #93C5FD;
+        font-size: 13px;
+    }
+
+/*==========================================================
+    ACTIVITIES
+==========================================================*/
+
+.activity {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+    .activity:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .activity strong {
+        display: block;
+        color: #fff;
+    }
+
+    .activity small {
+        color: rgba(255,255,255,.60);
+    }
+
+    .activity span {
+        font-weight: 600;
+        color: #fff;
+    }
+
+/*==========================================================
+    ACTION
+==========================================================*/
+
+.sidebar-action {
+    margin-top: auto;
+}
+
+    .sidebar-action .btn {
+        height: 52px;
+        border-radius: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+/*==========================================================
+    USER
+==========================================================*/
+
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #2563EB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.user-data {
+    flex: 1;
+}
+
+    .user-data strong {
+        display: block;
+        color: #fff;
+    }
+
+    .user-data small {
+        color: rgba(255,255,255,.60);
+    }
+
+.logout {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: .25s;
+}
+
+    .logout:hover {
+        background: rgba(255,255,255,.10);
+    }
+
+/*==========================================================
+    SCROLLBAR
+==========================================================*/
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,.20);
+    border-radius: 999px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/*==========================================================
+    RESPONSIVO
+==========================================================*/
+
+@media(max-width:1200px) {
+
+    .sidebar {
+        width: 280px;
+    }
+}
+
+@media(max-width:992px) {
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 1050;
+    }
+}

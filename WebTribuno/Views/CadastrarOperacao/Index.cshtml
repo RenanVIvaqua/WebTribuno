@@ -1,46 +1,179 @@
 ﻿@model WebTribuno.Models.OperacaoModel
-@using WebTribuno.Pages
+
 @{
-    ViewData["Title"] = "Index";
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Cadastrar Operação";
 }
 
-<form id="formCadastroOperacao" style="background-color:whitesmoke">
-    <div class="border p-3 mt-4">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row pb-2">
-            <h2 class="text-primary">Cadastrar Operação</h2>
-            <hr />
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="@Model.NomeOperacao" class="control-label"></label>
-            <input id="NomeOperacao" asp-for="@Model.NomeOperacao" class="form-control" />
-            <span asp-validation-for="NomeOperacao" class="text-danger"></span>
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="@Model.Descricao" class="control-label"></label>
-            <input id="Descricao" asp-for="@Model.Descricao" class="form-control" /> 
-            <span asp-validation-for="@Model.Descricao" class="text-danger"></span>
+<form id="formCadastroOperacao">
+
+    <!-- ========================================== -->
+    <!-- Header -->
+    <!-- ========================================== -->
+
+    <div class="page-header">
+
+        <div class="page-header-left">
+
+            <h1>
+
+                Cadastrar Operação
+
+            </h1>
+
+            <p>
+
+                Cadastre uma nova receita ou despesa.
+
+            </p>
+
         </div>
 
-        <div class="border border-warning p-3 mt-4" style="border-radius:10px;background-color:lightgray">
-            @if (Model != null)
-            {
-                <input hidden id="IdOperacao" asp-for="IdOperacao" class="form-control" value="@Model.IdOperacao" />
-            }
-            <partial name="_GerarParcelas" for="@Model.SimulacaoParcela" />
-        </div>
-
-        <div class="offset-5" style="padding-top:30px">
-            <input class="btn btn-primary col-md-2" id="btGravar" type="button" value="Cadastrar"/>
-            <a class="btn btn-success text-white col-md-2" asp-action="Index" asp-controller="Home">Voltar</a>
-        </div>      
     </div>
+
+    <!-- ========================================== -->
+    <!-- Dados -->
+    <!-- ========================================== -->
+
+    <div class="card-modern mb-4">
+
+        <div class="card-header-modern">
+
+            <div>
+
+                <div class="card-title">
+
+                    Dados da Operação
+
+                </div>
+
+                <div class="card-subtitle">
+
+                    Informações básicas da operação.
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-modern">
+
+            <div class="form-group">
+
+                <label asp-for="NomeOperacao"
+                       class="form-label form-label-required">
+
+                </label>
+
+                <input asp-for="NomeOperacao"
+                       class="form-control-modern" />
+
+                <span asp-validation-for="NomeOperacao"
+                      class="field-validation-error">
+
+                </span>
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="Descricao"
+                       class="form-label">
+
+                </label>
+
+                <textarea asp-for="Descricao"
+                          class="form-control-modern">
+
+                </textarea>
+
+                <span asp-validation-for="Descricao"
+                      class="field-validation-error">
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Financeiro -->
+    <!-- ========================================== -->
+
+    <div class="card-modern mb-4">
+
+        <div class="card-header-modern">
+
+            <div>
+
+                <div class="card-title">
+
+                    Financeiro
+
+                </div>
+
+                <div class="card-subtitle">
+
+                    Defina parcelas e cálculo.
+
+                </div>
+
+            </div>
+
+        </div>
+
+        @if (Model != null)
+        {
+            <input hidden
+                   asp-for="IdOperacao" />
+        }
+
+        <div id="simulacaoContainer">
+
+            <partial name="_GerarParcelas"
+                     for="SimulacaoParcela" />
+
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Footer -->
+    <!-- ========================================== -->
+
+    <div class="d-flex justify-content-end gap-3">
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="btn-modern btn-outline-modern">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Voltar
+
+        </a>
+
+        <button id="btGravar"
+                type="button"
+                class="btn-modern btn-primary-modern">
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            Salvar Operação
+
+        </button>
+
+    </div>
+
 </form>
 
-<script src="controller/action" asp-append-version="true" type="javascript"></script>
-
 @section Scripts {
+     <script src="~/js/CalcularParcela.js" asp-append-version="true"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
 }

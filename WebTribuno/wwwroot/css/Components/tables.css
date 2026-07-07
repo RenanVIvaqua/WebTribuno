@@ -1,0 +1,245 @@
+﻿/*==========================================================
+    TRIBUNO
+    Tables
+==========================================================*/
+
+/*==========================================================
+    Container
+==========================================================*/
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+}
+
+/*==========================================================
+    Table
+==========================================================*/
+
+.table-modern {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    margin: 0;
+}
+
+    /*==========================================================
+    Header
+==========================================================*/
+
+    .table-modern thead {
+        background: #F8FAFC;
+    }
+
+        .table-modern thead tr {
+            border-bottom: 1px solid var(--border);
+        }
+
+    .table-modern th {
+        padding: 18px 24px;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        color: var(--text-muted);
+        white-space: nowrap;
+    }
+
+    /*==========================================================
+    Body
+==========================================================*/
+
+    .table-modern tbody tr {
+        transition: var(--transition);
+        border-bottom: 1px solid #F1F5F9;
+    }
+
+        .table-modern tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .table-modern tbody tr:hover {
+            background: #F8FAFC;
+        }
+
+    .table-modern td {
+        padding: 18px 24px;
+        color: var(--text);
+        vertical-align: middle;
+    }
+
+/*==========================================================
+    Valores
+==========================================================*/
+
+.table-value {
+    font-weight: 600;
+}
+
+.table-value-positive {
+    color: var(--success);
+    font-weight: 700;
+}
+
+.table-value-negative {
+    color: var(--danger);
+    font-weight: 700;
+}
+
+/*==========================================================
+    Status
+==========================================================*/
+
+.table-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+    .table-status.success {
+        background: var(--success-light);
+        color: var(--success);
+    }
+
+    .table-status.warning {
+        background: var(--warning-light);
+        color: var(--warning);
+    }
+
+    .table-status.danger {
+        background: var(--danger-light);
+        color: var(--danger);
+    }
+
+    .table-status.info {
+        background: var(--info-light);
+        color: var(--info);
+    }
+
+/*==========================================================
+    Parcelas
+==========================================================*/
+
+.table-link {
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+    .table-link:hover {
+        color: var(--primary-hover);
+        text-decoration: underline;
+    }
+
+/*==========================================================
+    Ações
+==========================================================*/
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table-btn {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+    .table-btn i {
+        font-size: 15px;
+    }
+
+    .table-btn.edit {
+        color: var(--primary);
+    }
+
+        .table-btn.edit:hover {
+            background: var(--primary-light);
+        }
+
+    .table-btn.delete {
+        color: var(--danger);
+    }
+
+        .table-btn.delete:hover {
+            background: var(--danger-light);
+        }
+
+/*==========================================================
+    Empty
+==========================================================*/
+
+.table-empty {
+    padding: 60px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+    .table-empty i {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: #CBD5E1;
+    }
+
+    .table-empty h4 {
+        margin-bottom: 10px;
+    }
+
+/*==========================================================
+    Footer
+==========================================================*/
+
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+    background: #fff;
+}
+
+.table-pagination {
+    display: flex;
+    gap: 10px;
+}
+
+/*==========================================================
+    Responsive
+==========================================================*/
+
+@media(max-width:992px) {
+
+    .table-modern {
+        min-width: 850px;
+    }
+}
+
+@media(max-width:768px) {
+
+    .table-modern th {
+        padding: 16px;
+    }
+
+    .table-modern td {
+        padding: 16px;
+    }
+}

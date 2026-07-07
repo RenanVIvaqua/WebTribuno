@@ -1,4 +1,43 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function mostrarToast(mensagem, tipo) {
 
-// Write your JavaScript code.
+    let cor = tipo === "success"
+        ? "#22c55e"
+        : "#ef4444";
+
+    let icone = tipo === "success"
+        ? "fa-circle-check"
+        : "fa-circle-xmark";
+
+    const toast = $(`
+        <div class="toast-modern">
+
+            <i class="fa-solid ${icone}"></i>
+
+            <span>${mensagem}</span>
+
+        </div>
+    `);
+
+    toast.css("border-left", `4px solid ${cor}`);
+
+    $("#toastContainer").append(toast);
+
+    setTimeout(function () {
+
+        toast.addClass("show");
+
+    }, 50);
+
+    setTimeout(function () {
+
+        toast.removeClass("show");
+
+        setTimeout(function () {
+
+            toast.remove();
+
+        }, 300);
+
+    }, 2500);
+
+}
